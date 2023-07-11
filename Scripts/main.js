@@ -16,6 +16,20 @@ let api = "https://localhost:7245/api/Songs";
     function renderSongs(data){
         strHTML=``;
         for (d of data){
-            console.log(d);
+            
         }
     }
+    function InsertFavoriteSong(){
+      let InsertFAPI="https://localhost:7245/api/Songs/InsertFsvorite/userId/"+"1"+"/songId/"+"127";
+      ajaxCall("POST" , InsertFAPI , null , 
+      (data)=>{
+        if(data == -1 ){
+          alert("You Already Liked This Song");
+        }
+      },(err)=>{
+        alert(err);
+
+      })
+    }
+    InsertFavoriteSong();
+
