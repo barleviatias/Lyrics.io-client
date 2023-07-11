@@ -64,5 +64,5 @@ function renderSongs(data) {
 
       })
     }
-    InsertFavoriteSong();
+
 
