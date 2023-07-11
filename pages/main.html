@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="../Styles/main.css">
     <title>Document</title>
 </head>
-<body>
+<body onload="renderSongs()">
+  <div id="loader"></div>
     <div class="sidebar">
       <div class="logo">
         <a href="#">
@@ -24,7 +25,7 @@
 
       <div class="navigation">
         <ul>
-          <li>
+          <li onclick="renderSongs()">
             <a href="#">
               <span class="fa fa-home"></span>
               <span>Home</span>

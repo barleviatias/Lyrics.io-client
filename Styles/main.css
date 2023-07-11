@@ -275,10 +275,15 @@
     /* Add any other styling you want for each item */
   }
   .item p {
+    cursor: pointer;
     font-weight: 300;
     width: 100%;
   }
   .item button{
     background-color: #121212;
     width: 20%;
+  }
+
+  .artist-info{
+    color:whitesmoke
   }
