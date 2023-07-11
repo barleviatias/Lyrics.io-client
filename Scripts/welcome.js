@@ -53,7 +53,7 @@ function SignIn(event) {
   let ConnectAPI='https://localhost:7245/api/Users/LogIn/email/'+email;
   ajaxCall("POST",ConnectAPI,JSON.stringify(password), (data)=>{
     console.log(data);
-    window.location.href = "http://127.0.0.1:5500/Project/client/pages/main.html";
+    window.location.href = "/pages/main.html";
   }),(err)=>{
     alert(err);
   }
