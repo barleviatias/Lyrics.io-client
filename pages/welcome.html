@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="../Scripts/welcome.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../Styles/global.css">
+    <link rel="stylesheet" href="../Styles/welcome.css">
+    <title>Welcome Page</title>
+</head>
+
+<body class="dark-mode">
+    <div class="container">
+
+        <img class="logo" src="../img/2.png" alt="">
+        <div class="SignIn">
+            <h1 id="logH1">Sign In</h1>
+                
+                <form id="SignInForm" name="SignInForm" onsubmit="SignIn(event)">
+                    <table>
+                        <tr>
+                        <td><input type="email" placeholder="Email" name="email" id="email" required></td>
+                    </tr>
+                    <tr>
+                        <td><input type="password" placeholder="Password" name="password" id="password" required></td>
+                    </tr>
+                    <tr>
+                        <td><button type="submit" value="Sign In" id="signIn" >Login</button></td>
+                    </tr>
+                </table>
+            </form>
+            <label class="btn-switch" onclick="OpenSignUp()">to Sign Up</label>
+            
+        
+    </div>
+    <div class="SignUp" style="display: none;">
+        
+        <h1 id="logH1">Sign Up</h1>
+        
+        <form  id="SignUpForm" name="SignUpForm" onsubmit="SignUp(event)">
+            <table>
+                <tr>
+
+                    <td><input type="text" placeholder="First Name" name="FirstName" required></td>
+                </tr>
+                <tr>
+
+                    <td><input type="text" placeholder="Last Name" name="LastName" required></td>
+                </tr>
+                <tr>
+
+                    <td><input type="email" placeholder="Email" name="email" id="email" required></td>
+                </tr>
+                <tr>
+
+                    <td><input type="password" placeholder="Password" name="password" id="password" required></td>
+                </tr>
+                <tr>
+                    <td><button  type="submit" value="Sign Up"  id="signUp" ">Send</button></td>
+                </tr>
+            </table>
+        </form>
+        
+        <label   onclick="OpenSignUp()">to Sign In</label>
+    </div>
+    
+    
+    <!-- <button onclick="toggleDarkMode()">toggle</button> -->
+</div>
+<div class="toggle-div">
+    <input onchange="toggleDarkMode()" type="checkbox" class="checkbox" id="checkbox" checked>
+    <label for="checkbox" class="checkbox-label">
+      <i class="fas fa-moon"></i>
+      <i class="fas fa-sun"></i>
+      <span class="ball"></span>
+    </label>
+  </div>
+</body>
+
+</html>

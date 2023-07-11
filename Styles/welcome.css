@@ -1,0 +1,38 @@
+body{
+    /* background-color: black; */
+    /* color: whitesmoke; */
+    color: black;
+    display: flex;
+    justify-content: center;
+    height: 90vh;
+    text-align: center;
+    
+}
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+input{
+    margin-bottom: 10px;
+}
+.btn-switch{
+    margin-bottom: 10px;
+}
+.SignUp{
+    height: 500px;
+    /* display: flex; */
+    align-items: center;
+    align-content: stretch;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.SignIn{
+    height: 500px;
+    display: flex;
+    align-items: center;
+    align-content: stretch;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
