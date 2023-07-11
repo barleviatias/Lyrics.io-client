@@ -39,30 +39,7 @@ function renderSongs(data) {
     });
     item.appendChild(addToFavoritesButton);
 
-      renderSongs(data);
-    },
-    (err) => {
-      console.log(err);
-    }
-    );
-
-    function renderSongs(data){
-        strHTML=``;
-        for (d of data){
-            
-        }
-    }
-    function InsertFavoriteSong(){
-      let InsertFAPI="https://localhost:7245/api/Songs/InsertFsvorite/userId/"+"1"+"/songId/"+"127";
-      ajaxCall("POST" , InsertFAPI , null , 
-      (data)=>{
-        if(data == -1 ){
-          alert("You Already Liked This Song");
-        }
-      },(err)=>{
-        alert(err);
-
-      })
-    }
-
-
+		// Append the item to the container
+		container.appendChild(item);
+	}
+}
