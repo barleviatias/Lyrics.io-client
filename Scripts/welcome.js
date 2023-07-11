@@ -36,7 +36,7 @@ function SignUp(event) {
     (data) => {
       console.log("success");
       localStorage.setItem("user", JSON.stringify(Users));
-      window.location.href = "http://127.0.0.1:5500/Project/Project/client/pages/main.html";
+      window.location.href = "/pages/main.html";
     },
     (err) => {
       console.log(err);
