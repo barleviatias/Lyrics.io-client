@@ -39,8 +39,7 @@ function SignUp(event) {
       window.location.href = "/pages/main.html";
     },
     (err) => {
-      console.log(err);
-      console.log("error sign up");
+      alert("Email Already Used!");
       // alert(err);
     }
     );
@@ -52,11 +51,14 @@ function SignIn(event) {
   let password = document.SignInForm.password.value;
   let ConnectAPI='https://localhost:7245/api/Users/LogIn/email/'+email;
   ajaxCall("POST",ConnectAPI,JSON.stringify(password), (data)=>{
-    console.log(data);
+    document.SignInForm.email.value = "";
+    document.SignInForm.password.value = "";
     window.location.href = "/pages/main.html";
-  }),(err)=>{
-    alert(err);
-  }
+  },(err)=>{
+    alert("Email or Password incorrect");
+    document.SignInForm.email.value = "";
+    document.SignInForm.password.value = "";
+  })
   
 }
 

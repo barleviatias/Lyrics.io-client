@@ -5,7 +5,7 @@ let api = "https://localhost:7245/api/Songs";
     "GET",
     api,null,
     (data) => {
-      console.log(data);
+
       renderSongs(data);
     },
     (err) => {
