@@ -6,7 +6,12 @@
     background-color: #121212;
     font-family: 'Montserrat', sans-serif;
   }
-  
+  #centers{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
   .sidebar {
     position: fixed;
     left: 0;

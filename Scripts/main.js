@@ -43,9 +43,21 @@ function renderSongs(data) {
     	(data)=>{
     	  if(data == -1 ){
     		alert("You Already Liked This Song");
+			addToFavoritesButton.style.color="white";
+			let delAPI ='https://localhost:7245/api/Songs?userId='+userId+'&songId='+songId;
+			ajaxCall("DELETE" ,delAPI,null ,
+			(data) =>{
+				console.log(data);
+
+			},(err)=>{
+				alert(err);
+
+			}
+			)
     	  }
 		  else{
-			alert("This Song Added to Your Favorite List")
+			alert("This Song Added to Your Favorite List");
+			addToFavoritesButton.style.color="red";
 		  }
     	}
     	,(err)=>{
