@@ -1,5 +1,6 @@
-
-function renderSongs() {
+let likedSongsId;
+function getSongs(){
+  getFavSongs();
   showLoader()
   let api = 'https://localhost:7245/api/Songs';
 ajaxCall(
@@ -8,9 +9,35 @@ ajaxCall(
 	null,
 	(data) => {
     hideLoader()
+    localStorage.setItem("songs",JSON.stringify(data));
+    renderSongs(data);
+
+  },(err)=>{
+
+  });
+}
+function getLikedSongs(){
+  getFavSongs();
+  let lstLikedSongs=[];
+  songs= JSON.parse(localStorage.getItem("songs"));
+  console.log(songs);
+  for (s of songs){
+    if (likedSongsId.includes(s.id)){
+      console.log("match");
+      lstLikedSongs.push(s);
+    }
+  }
+  renderSongs(lstLikedSongs);
+  console.log(lstLikedSongs);
+  
+
+}
+function renderSongs(data) {
+  console.log(data);
+  getFavSongs();
+    hideLoader()
 		strHTML = ``;
 	const container = document.querySelector('.spotify-playlists'); // Replace 'container' with the ID of your container element
-
   // Clear the container
   container.innerHTML = "";
   for (d of data) {
@@ -35,6 +62,9 @@ ajaxCall(
 
     const addToFavoritesButton = document.createElement("button");
     addToFavoritesButton.className=d.id;
+    if(likedSongsId.includes(d.id)){
+      addToFavoritesButton.style.color="red";
+    }
 	addToFavoritesButton.innerHTML = '<i class="far fa-star"></i>';
     addToFavoritesButton.addEventListener("click", () => {
       let userId = localStorage.getItem("user");
@@ -45,6 +75,7 @@ ajaxCall(
     	  if(data == -1 ){
     		alert("You Already Liked This Song");
 			addToFavoritesButton.style.color="white";
+      getFavSongs();
 			let delAPI ='https://localhost:7245/api/Songs?userId='+userId+'&songId='+songId;
 			ajaxCall("DELETE" ,delAPI,null ,
 			(data) =>{
@@ -69,11 +100,7 @@ ajaxCall(
 
 		// Append the item to the container
 		container.appendChild(item);
-	}},
-	(err) => {
-		console.log(err);
-	}
-);
+  }
 
 
 }
@@ -159,4 +186,19 @@ function showLoader() {
 function hideLoader() {
   const loader = document.getElementById('loader');
   loader.style.display = 'none';
+}
+
+function getFavSongs(){
+let currUser=localStorage.getItem('user');
+  let api = 'https://localhost:7245/api/Songs/GetFavByID?userId='+currUser;
+ajaxCall(
+	'GET',
+	api,
+	null,
+	(data) => {
+console.log(data);
+likedSongsId=data;
+},(err)=>{
+  alert(err);
+});
 }
