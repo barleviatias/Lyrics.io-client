@@ -1,6 +1,7 @@
 let api = 'https://localhost:7245/';
 let users = [];
-let counterFavorite={};
+let counterFavorite=[];
+let songs=[];
 
 function init(){
     console.log("admin now");
@@ -11,6 +12,11 @@ function init(){
     // } );
 }
 
+function getFromSong(data){
+    for ( d of data){
+        songs.push(d);
+    }
+}
 function getUsers(){
     let getUsersAPI = api + 'api/Users';
     ajaxCall("GET" , getUsersAPI , null , 
@@ -37,17 +43,21 @@ function getFavoriteByID(){
     );
 }
 function getFavorite(){
+    let con=[];
     let favAPI= api+'api/Songs/GetAllFav';
     ajaxCall("GET",favAPI,null,
+    
     (data)=>{
         for (d in data){
-            if( counterFavorite.hasOwnProperty(data[d][1]) == false){
-                counterFavorite[data[d][1]] = 0;
+            if( con.hasOwnProperty(data[d][1]) == false){
+                con[data[d][1]] = 0;
             }
-            counterFavorite[data[d][1]] += 1;
-
+            con[data[d][1]] += 1;
         }
-        console.log( console.log(counterFavorite));
+        for (p in con){
+            counterFavorite.push([p,con[p]]);
+        }
+        console.log(counterFavorite);
     },(err)=>{
         alert(err);
     });
