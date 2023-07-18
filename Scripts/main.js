@@ -46,7 +46,10 @@ async function getSongs(){
   renderSongs(lstLikedSongs);
   console.log(lstLikedSongs);
 }
-function renderSongs(data) {
+function renderSongs(data,showSearch=0) {
+  if(showSearch==0){
+    document.querySelector('.search-div').innerHTML='';
+  }
   console.log(data);
   getFavSongs();
     hideLoader()
@@ -226,9 +229,10 @@ function logout(){
   localStorage.removeItem('user'); 
 }
 function OpenSearch(){
-  const container = document.querySelector('.spotify-playlists'); // Replace 'container' with the ID of your container element
+  let searchDiv = document.querySelector('.search-div'); // Replace 'container' with the ID of your container element
   // Clear the container
-  container.innerHTML = "";
+  console.log(searchDiv);
+  searchDiv.innerHTML = "";
   const searchContainer = document.createElement("div");
   const searchInput = document.createElement("input");
   const searchTypeSelect = document.createElement("select");
@@ -257,7 +261,7 @@ function OpenSearch(){
   searchContainer.appendChild(searchInput);
   searchContainer.appendChild(searchTypeSelect);
   searchContainer.appendChild(searchButton);
-  container.appendChild(searchContainer);
+  searchDiv.appendChild(searchContainer);
 
 }
 function Search(){
@@ -272,7 +276,7 @@ function Search(){
     ajaxCall("GET",nameApi,null ,
     (data)=>{
       console.log(data);
-      renderSongs(data);
+      renderSongs(data,1);
     },
     (err)=>{
       alert(err);
@@ -284,7 +288,7 @@ function Search(){
     ajaxCall("GET",artistApi,null ,
     (data)=>{
       console.log(data);
-      renderSongs(data);
+      renderSongs(data,1);
     },
     (err)=>{
       alert(err);
@@ -296,7 +300,7 @@ function Search(){
     ajaxCall("GET",lyricsApi,null ,
     (data)=>{
       console.log(data);
-      renderSongs(data);
+      renderSongs(data,1);
     },
     (err)=>{
       alert(err);
