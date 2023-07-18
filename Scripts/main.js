@@ -1,4 +1,5 @@
 let likedSongsId;
+let bar;
 function getSongs(){
   getFavSongs();
   showLoader()
