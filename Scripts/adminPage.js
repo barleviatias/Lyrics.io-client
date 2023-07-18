@@ -27,7 +27,7 @@ function getFavoriteByID(){
 }
 function getFavorite(){
     let favAPI= api+'api/Songs/GetAllFav';
-    ajaxCall("GET",countFavorite,null,
+    ajaxCall("GET",favAPI,null,
     (data)=>{
         console.log(data);
     },(err)=>{
