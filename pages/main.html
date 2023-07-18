@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../Styles/main.css">
     <title>Document</title>
 </head>
-<body onload="getSongs()">
+<body onload="init()">
   <div id="loader"></div>
     <div class="sidebar">
       <div class="logo">
@@ -81,27 +81,13 @@
     <div class="main-container">
       <div class="topbar">
         <div class="prev-next-buttons">
-          <button type="button" class="fa fas fa-chevron-left centers" ></button>
-          <button type="button" class="fa fas fa-chevron-right centers" ></button>
+          <!-- <button type="button" class="fa fas fa-chevron-left centers" ></button>
+          <button type="button" class="fa fas fa-chevron-right centers" ></button> -->
         </div>
 
         <div class="navbar">
-          <ul>
-            <li>
-              <a href="#">Premium</a>
-            </li>
-            <li>
-              <a href="#">Support</a>
-            </li>
-            <li>
-              <a href="#">Download</a>
-            </li>
-            <li class="divider">|</li>
-            <li>
-              <a href="#">Sign Up</a>
-            </li>
-          </ul>
-          <button  id="centers" type="button">Log In</button>
+          <p class="hello">hello bar</p>
+          <button onclick="logout()"  id="centers" type="button">Logout</button>
         </div>
       </div>
 

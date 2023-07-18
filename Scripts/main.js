@@ -1,25 +1,38 @@
-let likedSongsId;
+let likedSongsId =[];
 let bar;
-let api='https://localhost:7245/';
-function getSongs(){
-  getFavSongs();
-  showLoader()
-  let api1 = api+'api/Songs';
-ajaxCall(
-	'GET',
-	api1,
-	null,
-	(data) => {
-    hideLoader()
-    localStorage.setItem("songs",JSON.stringify(data));
-    renderSongs(data);
+let currUser=JSON.parse(localStorage.getItem('user'));
+function init(){
+  elHellolbl=document.querySelector('.hello');
+  if(currUser==null){
+    window.location.href = "/pages/welcome.html";
+  }
+  else{
+    console.log(currUser);
+    elHellolbl.innerText="Hello,"+currUser.firstName;
+  }
+  getSongs();
 
-  },(err)=>{
-
-  });
 }
-function getLikedSongs(){
-  getFavSongs();
+async function getSongs(){
+  showLoader()
+  await getFavSongs();
+  let api = 'https://localhost:7245/api/Songs';
+  ajaxCall(
+    'GET',
+    api,
+    null,
+    (data) => {
+      hideLoader()
+      localStorage.setItem("songs",JSON.stringify(data));
+      renderSongs(data);
+      
+    },(err)=>{
+      console.log(err);
+    });
+}
+ async function getLikedSongs(){
+  await getFavSongs();
+  console.log(likedSongsId);
   let lstLikedSongs=[];
   songs= JSON.parse(localStorage.getItem("songs"));
   console.log(songs);
@@ -62,19 +75,21 @@ function renderSongs(data) {
 
     const addToFavoritesButton = document.createElement("button");
     addToFavoritesButton.className=d.id;
+    addToFavoritesButton.classList.add="btn-fav";
+    addToFavoritesButton.innerHTML = '<i class="fa-regular fa-heart"></i>';
     if(likedSongsId.includes(d.id)){
-      addToFavoritesButton.style.color="red";
+      addToFavoritesButton.innerHTML = '<i class="fa-solid fa-heart"></i>';
+      addToFavoritesButton.style.color="green";
     }
-	addToFavoritesButton.innerHTML = '<i class="far fa-star"></i>';
     addToFavoritesButton.addEventListener("click", () => {
-      let userId = localStorage.getItem("user");
+      let userId = currUser.id;
       let songId = addToFavoritesButton.className;
     	let InsertFAPI=api+"api/Songs/InsertFsvorite/userId/"+userId+"/songId/"+songId;
     	ajaxCall("POST" , InsertFAPI , null ,
     	(data)=>{
     	  if(data == -1 ){
-    		alert("You Already Liked This Song");
 			addToFavoritesButton.style.color="white";
+      addToFavoritesButton.innerHTML = '<i class="fa-regular fa-heart"></i>';
       getFavSongs();
 			let delAPI =api+'api/Songs?userId='+userId+'&songId='+songId;
 			ajaxCall("DELETE" ,delAPI,null ,
@@ -88,8 +103,8 @@ function renderSongs(data) {
 			)
     	  }
 		  else{
-			alert("This Song Added to Your Favorite List");
-			addToFavoritesButton.style.color="red";
+			addToFavoritesButton.style.color="green";
+      addToFavoritesButton.innerHTML = '<i class="fa-solid fa-heart"></i>';
 		  }
     	}
     	,(err)=>{
@@ -105,9 +120,6 @@ function renderSongs(data) {
 
 }
 
-
-
-const lastAPI_KEY='0cf192ec4e9d4768370298d196df5ff2';
 const lastAPI='https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=KISS&api_key=0cf192ec4e9d4768370298d196df5ff2&format=json';
 function renderArtist(name){
   showLoader()
@@ -188,87 +200,27 @@ function hideLoader() {
   loader.style.display = 'none';
 }
 
-function getFavSongs(){
-let currUser=localStorage.getItem('user');
-  let apiF = api+'api/Songs/GetFavByID?userId='+currUser;
-ajaxCall(
-	'GET',
-	apiF,
-	null,
-	(data) => {
-console.log(data);
-likedSongsId=data;
-},(err)=>{
-  alert(err);
-});
+
+function getFavSongs() {
+  return new Promise((resolve, reject) => {
+    let currUser = JSON.parse(localStorage.getItem('user'));
+    let api = 'https://localhost:7245/api/Songs/GetFavByID?userId=' + currUser.id;
+
+    ajaxCall('GET', api, null,
+      (data) => {
+        console.log(data);
+        likedSongsId = data;
+        resolve(data);
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
 }
 
-function OpenSearch(){
-  const container = document.querySelector('.spotify-playlists'); // Replace 'container' with the ID of your container element
-  // Clear the container
-  container.innerHTML = "";
-  const searchContainer = document.createElement("div");
-  const searchInput = document.createElement("input");
-  const searchTypeSelect = document.createElement("select");
-  const searchButton = document.createElement("button");
-  const searchResults = document.createElement("div");
 
-  searchContainer.setAttribute("id", "search-container");
-
-  searchInput.setAttribute("type", "text");
-  searchInput.setAttribute("id", "search-input");
-  searchInput.setAttribute("placeholder", "Enter search term");
-
-  searchTypeSelect.setAttribute("id", "search-type");
-  searchTypeSelect.innerHTML = `
-    <option value="name">Song Name</option>
-    <option value="artist">Artist</option>
-    <option value="lyrics">Lyrics</option>
-  `;
-
-  searchButton.setAttribute("id", "search-button");
-  searchButton.textContent = "Search";
-  searchButton.onclick=Search;
-
-
-
-  searchContainer.appendChild(searchInput);
-  searchContainer.appendChild(searchTypeSelect);
-  searchContainer.appendChild(searchButton);
-  container.appendChild(searchContainer);
-
-}
-function Search(){
-  let val = document.getElementById('search-input').value;
-  if (val == ""){
-    alert("Please Insert Search key");
-    return;
-  }
-  let type = document.getElementById('search-type').options[document.getElementById('search-type').selectedIndex].innerHTML;
-  if (type == 'Song Name'){
-    let nameApi = api + 'api/Songs/GetBySongName/song/'+val;
-    ajaxCall("GET",nameApi,null ,
-    (data)=>{
-      console.log(data);
-    },
-    (err)=>{
-      alert(err);
-    });
-
-  }
-  if (type == 'Artist'){
-    let artistApi = api + 'api/Songs/GetSongsByARTIST/artist/'+val;
-    ajaxCall("GET",artistApi,null ,
-    (data)=>{
-      console.log(data);
-    },
-    (err)=>{
-      alert(err);
-    });
-
-  }
-  if (type == 'Lyrics'){
-
-  }
-
+function logout(){
+  window.location.href = "/pages/welcome.html";
+  localStorage.removeItem('user'); 
 }
