@@ -1,11 +1,12 @@
 let api = 'https://localhost:7245/';
 let users = [];
+// let table = new DataTable('#example');
 
 
 function init(){
     console.log("admin now");
+
     getUsers();
-    // let table = new DataTable('#example');
     // $('#example').DataTable( {
     //     data: users
     // } );
@@ -16,8 +17,8 @@ function getUsers(){
     ajaxCall("GET" , getUsersAPI , null , 
     (data)=>{
         console.log(data);
-        renderUsers(data);
         users= data;
+        renderUsers(data);
     },(err)=>{
         alert(err);
     });
@@ -60,4 +61,8 @@ function renderUsers(data){
             { data: 'signDate' }
         ]
     } );
+}
+function showManageUsers(){
+    let elDiv=document.querySelector(".manage-users");
+    elDiv.style.display='block';
 }
