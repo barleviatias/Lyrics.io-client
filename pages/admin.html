@@ -26,10 +26,16 @@
           <img src="../img/2.png" alt="Logo" />
         </a>
       </div>
-
+      
       <div class="navigation">
-        <ul>
-          <li onclick="getUsers()">
+          <ul>
+            <li onclick="showManageUsers()">
+              <a href="#">
+                <span class="fa fas fa-book"></span>
+                <span>Manage Users</span>
+              </a>
+            </li>
+          <li onclick="showManageUsers()">
             <a href="#">
               <span class="fa fa-home"></span>
               <span>Home</span>
@@ -39,16 +45,10 @@
           <li>
             <a href="#">
               <span class="fa fa-search"></span>
-              <span onclick="OpenSearch()">Search</span>
+              <span >Search</span>
             </a>
           </li>
 
-          <li>
-            <a href="#">
-              <span class="fa fas fa-book"></span>
-              <span>Manage Users</span>
-            </a>
-          </li>
         </ul>
       </div>
 
@@ -61,7 +61,7 @@
             </a>
           </li>
 
-          <li onclick="getLikedSongs()">
+          <li >
             <a href="#">
               <span class="fa fas fa-heart"></span>
               <span>Liked Songs</span>
@@ -84,6 +84,10 @@
 
     <div class="main-container">
       <div class="topbar">
+        <div class="prev-next-buttons">
+            <!-- <button type="button" class="fa fas fa-chevron-left centers" ></button>
+            <button type="button" class="fa fas fa-chevron-right centers" ></button> -->
+          </div>
         <div class="navbar">
           <p class="hello">Hello, Admin</p>
           <button onclick="logout()"  id="centers" type="button">Logout</button>
@@ -91,29 +95,16 @@
       </div>
       <h2>Admin Panel</h2>
       <div class="search-div"></div>
-      <div class="spotify-playlists">
+      <div class="manage-users" style="display: none;">
         <table id="example" class="display" style="width:100%">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Register Date</th>
                 </tr>
             </thead>
-            
-            <tfoot>
-                <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
-                </tr>
-            </tfoot>
         </table>
       </div>
 
