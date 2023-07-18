@@ -1,12 +1,13 @@
 let likedSongsId;
 let bar;
+let api='https://localhost:7245/';
 function getSongs(){
   getFavSongs();
   showLoader()
-  let api = 'https://localhost:7245/api/Songs';
+  let api1 = api+'api/Songs';
 ajaxCall(
 	'GET',
-	api,
+	api1,
 	null,
 	(data) => {
     hideLoader()
@@ -68,14 +69,14 @@ function renderSongs(data) {
     addToFavoritesButton.addEventListener("click", () => {
       let userId = localStorage.getItem("user");
       let songId = addToFavoritesButton.className;
-    	let InsertFAPI="https://localhost:7245/api/Songs/InsertFsvorite/userId/"+userId+"/songId/"+songId;
+    	let InsertFAPI=api+"api/Songs/InsertFsvorite/userId/"+userId+"/songId/"+songId;
     	ajaxCall("POST" , InsertFAPI , null ,
     	(data)=>{
     	  if(data == -1 ){
     		alert("You Already Liked This Song");
 			addToFavoritesButton.style.color="white";
       getFavSongs();
-			let delAPI ='https://localhost:7245/api/Songs?userId='+userId+'&songId='+songId;
+			let delAPI =api+'api/Songs?userId='+userId+'&songId='+songId;
 			ajaxCall("DELETE" ,delAPI,null ,
 			(data) =>{
 				console.log(data);
@@ -189,10 +190,10 @@ function hideLoader() {
 
 function getFavSongs(){
 let currUser=localStorage.getItem('user');
-  let api = 'https://localhost:7245/api/Songs/GetFavByID?userId='+currUser;
+  let apiF = api+'api/Songs/GetFavByID?userId='+currUser;
 ajaxCall(
 	'GET',
-	api,
+	apiF,
 	null,
 	(data) => {
 console.log(data);
@@ -200,4 +201,74 @@ likedSongsId=data;
 },(err)=>{
   alert(err);
 });
+}
+
+function OpenSearch(){
+  const container = document.querySelector('.spotify-playlists'); // Replace 'container' with the ID of your container element
+  // Clear the container
+  container.innerHTML = "";
+  const searchContainer = document.createElement("div");
+  const searchInput = document.createElement("input");
+  const searchTypeSelect = document.createElement("select");
+  const searchButton = document.createElement("button");
+  const searchResults = document.createElement("div");
+
+  searchContainer.setAttribute("id", "search-container");
+
+  searchInput.setAttribute("type", "text");
+  searchInput.setAttribute("id", "search-input");
+  searchInput.setAttribute("placeholder", "Enter search term");
+
+  searchTypeSelect.setAttribute("id", "search-type");
+  searchTypeSelect.innerHTML = `
+    <option value="name">Song Name</option>
+    <option value="artist">Artist</option>
+    <option value="lyrics">Lyrics</option>
+  `;
+
+  searchButton.setAttribute("id", "search-button");
+  searchButton.textContent = "Search";
+  searchButton.onclick=Search;
+
+
+
+  searchContainer.appendChild(searchInput);
+  searchContainer.appendChild(searchTypeSelect);
+  searchContainer.appendChild(searchButton);
+  container.appendChild(searchContainer);
+
+}
+function Search(){
+  let val = document.getElementById('search-input').value;
+  if (val == ""){
+    alert("Please Insert Search key");
+    return;
+  }
+  let type = document.getElementById('search-type').options[document.getElementById('search-type').selectedIndex].innerHTML;
+  if (type == 'Song Name'){
+    let nameApi = api + 'api/Songs/GetBySongName/song/'+val;
+    ajaxCall("GET",nameApi,null ,
+    (data)=>{
+      console.log(data);
+    },
+    (err)=>{
+      alert(err);
+    });
+
+  }
+  if (type == 'Artist'){
+    let artistApi = api + 'api/Songs/GetSongsByARTIST/artist/'+val;
+    ajaxCall("GET",artistApi,null ,
+    (data)=>{
+      console.log(data);
+    },
+    (err)=>{
+      alert(err);
+    });
+
+  }
+  if (type == 'Lyrics'){
+
+  }
+
 }
