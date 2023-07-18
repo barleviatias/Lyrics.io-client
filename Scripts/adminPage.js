@@ -1,6 +1,6 @@
 let api = 'https://localhost:7245/';
 let users = [];
-
+let counterFavorite={};
 
 function init(){
     console.log("admin now");
@@ -40,7 +40,14 @@ function getFavorite(){
     let favAPI= api+'api/Songs/GetAllFav';
     ajaxCall("GET",favAPI,null,
     (data)=>{
-        console.log(data);
+        for (d in data){
+            if( counterFavorite.hasOwnProperty(data[d][1]) == false){
+                counterFavorite[data[d][1]] = 0;
+            }
+            counterFavorite[data[d][1]] += 1;
+
+        }
+        console.log( console.log(counterFavorite));
     },(err)=>{
         alert(err);
     });
@@ -50,7 +57,7 @@ function getFavorite(){
 
 function renderUsers(data){
     console.log("try render");
-    console.log(data);
+
     $('#example').DataTable( {
         data: data,
         columns: [
@@ -61,3 +68,4 @@ function renderUsers(data){
         ]
     } );
 }
+getFavorite();
