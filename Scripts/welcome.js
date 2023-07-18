@@ -1,4 +1,5 @@
 var flag=1;
+let api = 'https://localhost:7245/';
 const elcheckbox = document.querySelector("input[type='checkbox']");
 console.log(elcheckbox);
 console.log("loading");
@@ -28,10 +29,10 @@ function SignUp(event) {
     signDate: getDateNow(),
   };
   console.log(Users);
-  let api = "https://localhost:7245/api/Users/InsertUser";
+  let api1 = api+"api/Users/InsertUser";
   ajaxCall(
     "POST",
-    api,
+    api1,
     JSON.stringify(Users),
     (data) => {
       console.log("success");
@@ -49,7 +50,7 @@ function SignIn(event) {
   event.preventDefault();
   let email = document.SignInForm.email.value;
   let password = document.SignInForm.password.value;
-  let ConnectAPI='https://localhost:7245/api/Users/LogIn/email/'+email;
+  let ConnectAPI=api+'api/Users/LogIn/email/'+email;
   ajaxCall("POST",ConnectAPI,JSON.stringify(password), (data)=>{
     document.SignInForm.email.value = "";
     document.SignInForm.password.value = "";

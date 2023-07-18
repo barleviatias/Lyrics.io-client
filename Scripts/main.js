@@ -1,5 +1,6 @@
 let likedSongsId =[];
 let bar;
+let api = 'https://localhost:7245/';
 let currUser=JSON.parse(localStorage.getItem('user'));
 function init(){
   elHellolbl=document.querySelector('.hello');
@@ -16,10 +17,10 @@ function init(){
 async function getSongs(){
   showLoader()
   await getFavSongs();
-  let api = 'https://localhost:7245/api/Songs';
+  let api1 = api+'api/Songs';
   ajaxCall(
     'GET',
-    api,
+    api1,
     null,
     (data) => {
       hideLoader()
@@ -204,9 +205,9 @@ function hideLoader() {
 function getFavSongs() {
   return new Promise((resolve, reject) => {
     let currUser = JSON.parse(localStorage.getItem('user'));
-    let api = 'https://localhost:7245/api/Songs/GetFavByID?userId=' + currUser.id;
+    let api3 = api+'api/Songs/GetFavByID?userId=' + currUser.id;
 
-    ajaxCall('GET', api, null,
+    ajaxCall('GET', api3, null,
       (data) => {
         console.log(data);
         likedSongsId = data;
@@ -223,4 +224,84 @@ function getFavSongs() {
 function logout(){
   window.location.href = "/pages/welcome.html";
   localStorage.removeItem('user'); 
+}
+function OpenSearch(){
+  const container = document.querySelector('.spotify-playlists'); // Replace 'container' with the ID of your container element
+  // Clear the container
+  container.innerHTML = "";
+  const searchContainer = document.createElement("div");
+  const searchInput = document.createElement("input");
+  const searchTypeSelect = document.createElement("select");
+  const searchButton = document.createElement("button");
+  const searchResults = document.createElement("div");
+
+  searchContainer.setAttribute("id", "search-container");
+
+  searchInput.setAttribute("type", "text");
+  searchInput.setAttribute("id", "search-input");
+  searchInput.setAttribute("placeholder", "Enter search term");
+
+  searchTypeSelect.setAttribute("id", "search-type");
+  searchTypeSelect.innerHTML = `
+    <option value="name">Song Name</option>
+    <option value="artist">Artist</option>
+    <option value="lyrics">Lyrics</option>
+  `;
+
+  searchButton.setAttribute("id", "search-button");
+  searchButton.textContent = "Search";
+  searchButton.onclick=Search;
+
+
+
+  searchContainer.appendChild(searchInput);
+  searchContainer.appendChild(searchTypeSelect);
+  searchContainer.appendChild(searchButton);
+  container.appendChild(searchContainer);
+
+}
+function Search(){
+  let val = document.getElementById('search-input').value;
+  if (val == ""){
+    alert("Please Insert Search key");
+    return;
+  }
+  let type = document.getElementById('search-type').options[document.getElementById('search-type').selectedIndex].innerHTML;
+  if (type == 'Song Name'){
+    let nameApi = api + 'api/Songs/GetBySongName/song/'+val;
+    ajaxCall("GET",nameApi,null ,
+    (data)=>{
+      console.log(data);
+      renderSongs(data);
+    },
+    (err)=>{
+      alert(err);
+    });
+
+  }
+  if (type == 'Artist'){
+    let artistApi = api + 'api/Songs/GetSongsByARTIST/artist/'+val;
+    ajaxCall("GET",artistApi,null ,
+    (data)=>{
+      console.log(data);
+      renderSongs(data);
+    },
+    (err)=>{
+      alert(err);
+    });
+
+  }
+  if (type == 'Lyrics'){
+    let lyricsApi = api + 'api/Songs/GetBySongLyrics/lyrics/'+val;
+    ajaxCall("GET",lyricsApi,null ,
+    (data)=>{
+      console.log(data);
+      renderSongs(data);
+    },
+    (err)=>{
+      alert(err);
+    });
+
+  }
+
 }
