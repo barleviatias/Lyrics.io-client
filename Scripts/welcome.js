@@ -53,7 +53,8 @@ function SignIn(event) {
   ajaxCall("POST",ConnectAPI,JSON.stringify(password), (data)=>{
     document.SignInForm.email.value = "";
     document.SignInForm.password.value = "";
-    localStorage.setItem("user" ,JSON.stringify(data.id));
+    console.log(data);
+    localStorage.setItem("user" ,JSON.stringify(data));
     window.location.href = "/pages/main.html";
   },(err)=>{
     alert("Email or Password incorrect");
