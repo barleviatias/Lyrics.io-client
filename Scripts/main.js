@@ -133,17 +133,15 @@ function renderSongs(data, showSearch = 0) {
 	}
 }
 
-const lastAPI =
-	'https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=KISS&api_key=0cf192ec4e9d4768370298d196df5ff2&format=json';
 function renderArtist(name) {
 	showLoader();
-	console.log(name);
+	let image_url='../img/user.png';
 	const apiUrl =
 		'https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' +
 		name +
 		'&api_key=0cf192ec4e9d4768370298d196df5ff2&format=json';
-
 	fetch(apiUrl)
+	
 		.then((response) => response.json())
 		.then((data) => {
 			hideLoader();
@@ -152,6 +150,32 @@ function renderArtist(name) {
 			container.innerHTML = '';
 			artistData = data.artist;
 			console.log(artistData.name);
+			if (artistData.mbid) {
+				const url = 'https://musicbrainz.org/ws/2/artist/' + artistData.mbid + '?inc=url-rels&fmt=json';
+				console.log(url);
+				 fetch(url)
+					 .then(res => res.json())
+					 .then((out) => {
+						 const relations = out.relations;
+						//  console.table(relations);
+						 // Find image relation
+						 for (let i = 0; i < relations.length; i++) {
+							 if (relations[i].type === 'image') {
+								 image_url = relations[i].url.resource;
+								 if (image_url.startsWith('https://commons.wikimedia.org/wiki/File:')) {
+									 const filename = image_url.substring(image_url.lastIndexOf('/') + 1);
+									 image_url = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + filename;
+								 }
+								}
+							}
+							console.log(image_url);
+							var artistImg = document.createElement('img');
+							artistImg.src = image_url;
+							artistImg.className='artist-img'
+						   artistInfoDiv.insertBefore(artistImg,artistInfoDiv.firstChild);
+					 })
+					 .catch(err => { throw console.log(err) });
+					}
 			// Create the artist information div
 			var artistInfoDiv = document.createElement('div');
 			artistInfoDiv.classList.add('artist-info');

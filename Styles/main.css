@@ -336,9 +336,18 @@ body {
 }
 
 .artist-info {
-  color: whitesmoke
+  display: flex;
+  color: whitesmoke;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
 }
-
+.spotify-playlists h2 {
+  color: #ffffff;
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
 .hello {
   color: whitesmoke;
 }
@@ -375,4 +384,13 @@ body {
   padding: 10px 5px;
   background-color: aliceblue;
   text-align: center;
+}
+.artist-img{
+  width: 150px; /* Adjust the size of the circular container as needed */
+  height: 150px; /* Ensure width and height are equal to create a perfect circle */
+  border-radius: 50%; /* Makes the container circular */
+  overflow: hidden; /* Hides any overflow from the circular shape */
+  background-size: cover; /* Ensures the image covers the entire circle */
+  background-position: center; 
+  margin:auto;
 }
