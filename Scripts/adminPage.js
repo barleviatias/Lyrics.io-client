@@ -80,7 +80,6 @@ function getUsers() {
       },
       (err) => {
         alert(err);
-<<<<<<< HEAD
       }
     );
   }
@@ -161,9 +160,6 @@ function getUsers() {
     });
   }
 
-=======
-    });
-}
 
 function renderUsers(data) {
 	console.log('try render');
@@ -221,4 +217,3 @@ function changeIdToName(){
         }
     }
 }
->>>>>>> 3f49011c553092ffee580348fa6a15f6adc1a292
