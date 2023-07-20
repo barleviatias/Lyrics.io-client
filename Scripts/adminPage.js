@@ -1,6 +1,6 @@
 let api = 'https://localhost:7245/';
 let users = [];
-let counterFavorite={};
+let counterFavorite=[];
 
 function init(){
     console.log("admin now");
@@ -11,11 +11,7 @@ function init(){
     // } );
 }
 
-function getFromSong(data){
-    for ( d of data){
-        songs.push(d);
-    }
-}
+
 function getUsers(){
     let getUsersAPI = api + 'api/Users';
     ajaxCall("GET" , getUsersAPI , null , 
