@@ -208,3 +208,8 @@ function getUsers() {
     flag =1 ;
   }
 
+  function logout() {
+    window.location.href = '/pages/welcome.html';
+    localStorage.removeItem('user');
+  }
+

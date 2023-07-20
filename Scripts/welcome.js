@@ -1,5 +1,5 @@
-var flag=1;
-let api = 'https://localhost:7245/';
+var flag = 1;
+let api = "https://localhost:7245/";
 const elcheckbox = document.querySelector("input[type='checkbox']");
 console.log(elcheckbox);
 console.log("loading");
@@ -29,7 +29,7 @@ function SignUp(event) {
     signDate: getDateNow(),
   };
   console.log(Users);
-  let api1 = api+"api/Users/InsertUser";
+  let api1 = api + "api/Users/InsertUser";
   ajaxCall(
     "POST",
     api1,
@@ -43,26 +43,39 @@ function SignUp(event) {
       alert("Email Already Used!");
       // alert(err);
     }
-    );
+  );
 }
 
 function SignIn(event) {
   event.preventDefault();
   let email = document.SignInForm.email.value;
   let password = document.SignInForm.password.value;
-  let ConnectAPI=api+'api/Users/LogIn/email/'+email;
-  ajaxCall("POST",ConnectAPI,JSON.stringify(password), (data)=>{
-    document.SignInForm.email.value = "";
-    document.SignInForm.password.value = "";
-    console.log(data);
-    localStorage.setItem("user" ,JSON.stringify(data));
-    window.location.href = "/pages/main.html";
-  },(err)=>{
-    alert("Email or Password incorrect");
-    document.SignInForm.email.value = "";
-    document.SignInForm.password.value = "";
-  })
-  
+
+  let ConnectAPI = api + "api/Users/LogIn/email/" + email;
+  ajaxCall(
+    "POST",
+    ConnectAPI,
+    JSON.stringify(password),
+    (data) => {
+      if (email == "admin@gmail.com" && password == "123") {
+        document.SignInForm.email.value = "";
+        document.SignInForm.password.value = "";
+        localStorage.setItem("user", JSON.stringify(data));
+        window.location.href = "/pages/admin.html";
+        return;
+      }
+      document.SignInForm.email.value = "";
+      document.SignInForm.password.value = "";
+      console.log(data);
+      localStorage.setItem("user", JSON.stringify(data));
+      window.location.href = "/pages/main.html";
+    },
+    (err) => {
+      alert("Email or Password incorrect");
+      document.SignInForm.email.value = "";
+      document.SignInForm.password.value = "";
+    }
+  );
 }
 
 function getDateNow() {
@@ -82,21 +95,21 @@ function getDateNow() {
     ":" +
     pad(date.getUTCMinutes()) +
     ":" +
-    pad(date.getUTCSeconds())+"Z";
-    return date;
+    pad(date.getUTCSeconds()) +
+    "Z";
+  return date;
 }
-
 
 function toggleDarkMode() {
   console.log(flag);
-  if(flag){
-    var img=document.querySelector(".logo");
-    img.src = '../img/1.png';
-    flag=0;
-  }else{
-    var img=document.querySelector(".logo");
-    img.src ='../img/2.png';
-    flag=1;
+  if (flag) {
+    var img = document.querySelector(".logo");
+    img.src = "../img/1.png";
+    flag = 0;
+  } else {
+    var img = document.querySelector(".logo");
+    img.src = "../img/2.png";
+    flag = 1;
   }
   var element = document.body;
   element.classList.toggle("dark-mode");
