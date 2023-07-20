@@ -93,7 +93,7 @@ getFavorite();
       // instantiates the pie chart, passes in the data and
       // draws it.
       function drawChart() {
-
+        changeIdToName();
         // Create the data table.
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Topping');
@@ -102,10 +102,21 @@ getFavorite();
 
         // Set chart options
         var options = {'title':'How Much Pizza I Ate Last Night',
-                       'width':400,
-                       'height':300};
+                       'width':500,
+                       'backgroundColor':'black',
+                       'height':500};
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
       }
+function changeIdToName(){
+    songs=JSON.parse(localStorage.getItem('songs'));
+    for(s of songs){
+        for(f in counterFavorite){
+            if(counterFavorite[f][0]==s.id){
+                counterFavorite[f][0]=s.song;
+            }
+        }
+    }
+}
