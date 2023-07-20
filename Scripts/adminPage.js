@@ -1,18 +1,21 @@
-let api = 'https://localhost:7245/';
-let users = [];
+et users = [];
+// let table = new DataTable('#example');
 
-let counterFavorite=[];
+let counterFavorite={};
+let counterFavorite = [];
 
-
-
+function init(){
+    console.log("admin now");
 function init() {
 	console.log('admin now');
 
+    getUsers();
+    // $('#example').DataTable( {
+    //     data: users
+    // } );
 	getUsers();
     drawChart();
 }
-
-
 
 function getUsers(){
     let getUsersAPI = api + 'api/Users';
@@ -24,7 +27,6 @@ function getUsers(){
     },(err)=>{
         alert(err);
     });
-
 function getUsers() {
 	let getUsersAPI = api + 'api/Users';
 	ajaxCall(
@@ -40,12 +42,22 @@ function getUsers() {
 			alert(err);
 		}
 	);
-
 }
 
 function getFavoriteByID() {
 	let api3 = api + 'api/Songs/GetFavByID?userId=' + 1;
 
+function getFavoriteByID(){
+    let api3 = api+'api/Songs/GetFavByID?userId=' + 1;
+
+    ajaxCall('GET', api3, null,
+      (data) => {
+        console.log(data);
+      },
+      (err) => {
+        arr(err);
+      }
+    );
 	ajaxCall(
 		'GET',
 		api3,
@@ -59,29 +71,57 @@ function getFavoriteByID() {
 	);
 }
 function getFavorite(){
-    let con=[];
     let favAPI= api+'api/Songs/GetAllFav';
     ajaxCall("GET",favAPI,null,
-    
     (data)=>{
         for (d in data){
-            if( con.hasOwnProperty(data[d][1]) == false){
-                con[data[d][1]] = 0;
+            if( counterFavorite.hasOwnProperty(data[d][1]) == false){
+                counterFavorite[data[d][1]] = 0;
             }
-            con[data[d][1]] += 1;
+            counterFavorite[data[d][1]] += 1;
+
         }
-        for (p in con){
-            counterFavorite.push([p,con[p]]);
-        }
-        console.log(counterFavorite);
+        console.log( console.log(counterFavorite));
     },(err)=>{
         alert(err);
     });
+function getFavorite() {
+	let favAPI = api + 'api/Songs/GetAllFav';
+	ajaxCall(
+		'GET',
+		favAPI,
+		null,
+		(data) => {
+			for (d in data) {
+				if (counterFavorite.hasOwnProperty(data[d][1]) == false) {
+					counterFavorite[data[d][1]] = 0;
+				}
+				counterFavorite[data[d][1]] += 1;
+			}
+			console.log(console.log(counterFavorite));
+		},
+		(err) => {
+			alert(err);
+		}
+	);
 }
 
 function renderUsers(data) {
 	console.log('try render');
 
+
+function renderUsers(data){
+    console.log("try render");
+
+    $('#example').DataTable( {
+        data: data,
+        columns: [
+            { data: 'firstName' },
+            { data: 'lastName' },
+            { data: 'email' },
+            { data: 'signDate' }
+        ]
+    } );
 	$('#example').DataTable({
 		data: data,
 		columns: [
@@ -92,6 +132,9 @@ function renderUsers(data) {
 		],
 	});
 }
+function showManageUsers(){
+    let elDiv=document.querySelector(".manage-users");
+    elDiv.style.display='block';
 function showManageUsers() {
 	let elDiv = document.querySelector('.manage-users');
 	elDiv.style.display = 'block';
@@ -123,4 +166,4 @@ getFavorite();
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
-    }}
+      }
