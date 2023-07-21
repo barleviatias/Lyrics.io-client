@@ -46,6 +46,7 @@ async function getLikedSongs() {
 	console.log(lstLikedSongs);
 }
 function renderSongs(data, showSearch = 0) {
+	document.querySelector('.spotify-playlists').style.display="block";
 	if (showSearch == 0) {
 		document.querySelector('.search-div').innerHTML = '';
 	}
@@ -301,6 +302,7 @@ function logout() {
 	localStorage.removeItem('user');
 }
 function OpenSearch() {
+	document.querySelector('.spotify-playlists').style.display="none";
 	let searchDiv = document.querySelector('.search-div'); // Replace 'container' with the ID of your container element
 	// Clear the container
 	console.log(searchDiv);

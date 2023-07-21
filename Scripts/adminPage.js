@@ -146,7 +146,7 @@ function getUsers() {
       title: "Songs Statistics",
       width: 1000,
       height: 300,
-
+      
     };
 
     // Instantiate and draw our chart, passing in some options.
