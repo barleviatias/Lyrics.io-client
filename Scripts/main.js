@@ -65,6 +65,7 @@ function renderSongs(data, showSearch = 0) {
   const container = document.querySelector(".spotify-playlists"); // Replace 'container' with the ID of your container element
   // Clear the container
   document.querySelector(".videos").style.display = "none";
+  document.querySelector(".quize-div").style.display = "none";
   container.innerHTML = "";
   for (d of data) {
     const item = document.createElement("div");
@@ -252,6 +253,7 @@ function renderSong(songId) {
   songs = JSON.parse(localStorage.getItem("songs"));
   const container = document.querySelector(".spotify-playlists");
   document.querySelector(".videos").style.display = "none";
+  document.querySelector(".quize-div").style.display = "none";
   container.innerHTML = "";
   for (s of songs) {
     if (s.id == songId) {
@@ -315,6 +317,7 @@ function logout() {
 }
 function OpenSearch() {
   document.querySelector(".spotify-playlists").style.display = "none";
+  document.querySelector(".quize-div").style.display = "none";
   document.querySelector(".videos").style.display = "none";
   let searchDiv = document.querySelector(".search-div"); // Replace 'container' with the ID of your container element
   // Clear the container
@@ -524,6 +527,7 @@ function Search() {
 }
 function startGame() {
   let elcontainer = document.querySelector(".spotify-playlists");
+  document.querySelector(".quize-div").style.display="block";
   elcontainer.innerHTML = "";
   score = 0;
   count = 0;
