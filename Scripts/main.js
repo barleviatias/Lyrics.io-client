@@ -1,4 +1,12 @@
 let likedSongsId = [];
+const numOfQuestions = 5;
+let score = 0;
+let timeLeft = 30; // Set the initial time in seconds
+let timerInterval; // Variable to store the interval reference
+let rnd;
+let hints=2;
+let count = 0;
+let quizeArr = [];
 let bar;
 let api = "https://localhost:7245/";
 let currUser = JSON.parse(localStorage.getItem("user"));
@@ -228,12 +236,27 @@ function renderArtist(name) {
       urlLink.textContent = "Visit Last.fm page";
       artistInfoDiv.appendChild(urlLink);
 
+<<<<<<< HEAD
       // Append the artist information div to the container
       container.appendChild(artistInfoDiv);
     })
     .catch((error) => {
       console.error("Error:", error);
     });
+=======
+			// Render the URL
+			var urlLink = document.createElement('q');
+			urlLink.href = artistData.url;
+			urlLink.textContent = 'Visit Last.fm page';
+			artistInfoDiv.appendChild(urlLink);
+
+			// Append the artist information div to the container
+			container.appendChild(artistInfoDiv);
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+>>>>>>> ed12009c9252a2728d22c4a1e276dcde6aab9b7c
 }
 function renderSong(songId) {
   showLoader();
@@ -265,7 +288,6 @@ function renderSong(songId) {
   container.appendChild(artistInfoDiv);
   hideLoader();
 }
-// renderArtist('kiss')
 
 function showLoader() {
   const loader = document.getElementById("loader");
