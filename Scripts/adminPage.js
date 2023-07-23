@@ -13,12 +13,9 @@ function showChartDiv() {
 }
 
 function init() {
-  if (currUser.email != 'admin@gmail.com') {
+  if (currUser.email.split(' ')[0] != 'admin@gmail.com') {
 		window.location.href = '/pages/welcome.html';
-	} else {
-		console.log(currUser);
-		elHellolbl.innerText = 'Hello,' + currUser.firstName;
-	}
+	} 
   console.log("admin now");
   document.querySelector(".manage-users").style.display = "none";
   document.querySelector(".manage-liked-songs").style.display = "none";
