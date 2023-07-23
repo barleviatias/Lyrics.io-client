@@ -1,4 +1,8 @@
 let likedSongsId = [];
+const numOfQuestions = 5;
+let score = 0;
+let rnd;
+let quizeArr = [];
 let bar;
 let api = 'https://localhost:7245/';
 let currUser = JSON.parse(localStorage.getItem('user'));
@@ -221,7 +225,7 @@ function renderArtist(name) {
 			artistInfoDiv.appendChild(statsParagraph);
 
 			// Render the URL
-			var urlLink = document.createElement('a');
+			var urlLink = document.createElement('q');
 			urlLink.href = artistData.url;
 			urlLink.textContent = 'Visit Last.fm page';
 			artistInfoDiv.appendChild(urlLink);
@@ -261,7 +265,6 @@ function renderSong(songId) {
 	container.appendChild(artistInfoDiv);
 	hideLoader();
 }
-// renderArtist('kiss')
 
 function showLoader() {
 	const loader = document.getElementById('loader');
@@ -389,16 +392,17 @@ function Search() {
 	}
 }
 function startGame() {
-	const numOfQuestions = 5;
-	let score = 0;
-	let rnd;
-	let quizeArr = [];
+	let elcontainer = document.querySelector('.spotify-playlists');
+	elcontainer.innerHTML = '';
+	score = 0;
+	rnd;
+	quizeArr = [];
 	let arrGame = JSON.parse(localStorage.getItem('songs'));
 	for (let i = 0; i < numOfQuestions; i++) {
 		rnd = Math.floor(Math.random() * arrGame.length);
 		let opt = [];
 		let question = {
-			q: "what song belong to "+arrGame[rnd].artist,
+			q: 'what song belong to ' + arrGame[rnd].artist,
 			a: arrGame[rnd].song,
 			options: [],
 		};
@@ -407,32 +411,81 @@ function startGame() {
 			arrGame.splice(rnd, 1);
 			rnd = Math.floor(Math.random() * arrGame.length);
 		}
-		question.options=shuffle(opt);
+		question.options = shuffle(opt);
 		quizeArr.push(question);
 	}
-	console.log(quizeArr.pop());
+	renderQuestion(quizeArr.pop());
 }
 
-function renderQuestion(q){
-
+function renderQuestion(q) {
+	if(quizeArr.length!=0){
+		elScore = document.querySelector('.score');
+		elQuestion = document.querySelector('.question');
+		elQuestion.innerHTML = '';
+		var question = document.createElement('h2');
+		question.innerText = q.q;
+		elQuestion.appendChild(question);
+		for (let i = 0; i < q.options.length; i++) {
+			const btnOpt = document.createElement('button');
+			btnOpt.innerText = q.options[i];
+			btnOpt.className='option'
+			btnOpt.id = q.options[i];
+			btnOpt.addEventListener('click', () => {
+				checkAns(btnOpt.id, q);
+			});
+			elQuestion.appendChild(btnOpt);
+		}
+		var lblMsg = document.createElement('p');
+		lblMsg.className = 'lbl-message';
+		elQuestion.appendChild(lblMsg);
+		elScore.innerText="score:"+score;
+	}
+	else{
+		console.log("game ended");
+		console.log("your score is "+score);
+	}
 }
-function checkAns(){
-	
+
+async function checkAns(ans, q) {
+	let elLbl = document.querySelector('.lbl-message');
+	elBtn = document.getElementById(ans);
+	if (ans == q.a) {
+		elLbl.innerText = 'Correct';
+		// console.log("correct!");
+		score += 10;
+		elBtn.className = 'correct';
+	} else {
+		// console.log("try againg");
+		elLbl.innerText = 'Wrong';
+		elBtn.className = 'wrong';
+	}
+	elOpt=document.querySelectorAll(".option");
+	for(let i=0;i<elOpt.length;i++){
+		elOpt[i].disabled=true; 
+	}
+	await sleep(2 * 1000);
+	renderQuestion(quizeArr.pop());
 }
 function shuffle(array) {
-	let currentIndex = array.length,  randomIndex;
-  
+	let currentIndex = array.length,
+		randomIndex;
+
 	// While there remain elements to shuffle.
 	while (currentIndex != 0) {
-  
-	  // Pick a remaining element.
-	  randomIndex = Math.floor(Math.random() * currentIndex);
-	  currentIndex--;
-  
-	  // And swap it with the current element.
-	  [array[currentIndex], array[randomIndex]] = [
-		array[randomIndex], array[currentIndex]];
+		// Pick q remaining element.
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex--;
+
+		// And swap it with the current element.
+		[array[currentIndex], array[randomIndex]] = [
+			array[randomIndex],
+			array[currentIndex],
+		];
 	}
-  
+
 	return array;
-  }
+}
+
+function sleep(ms) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
