@@ -2,6 +2,7 @@ let likedSongsId = [];
 const numOfQuestions = 5;
 let score = 0;
 let rnd;
+let count=0;
 let quizeArr = [];
 let bar;
 let api = 'https://localhost:7245/';
@@ -442,6 +443,7 @@ function renderQuestion(q) {
 	}
 	else{
 		console.log("game ended");
+		quizeEnd();
 		console.log("your score is "+score);
 	}
 }
@@ -453,6 +455,7 @@ async function checkAns(ans, q) {
 		elLbl.innerText = 'Correct';
 		// console.log("correct!");
 		score += 10;
+		count++;
 		elBtn.className = 'correct';
 	} else {
 		// console.log("try againg");
@@ -465,6 +468,21 @@ async function checkAns(ans, q) {
 	}
 	await sleep(2 * 1000);
 	renderQuestion(quizeArr.pop());
+}
+function quizeEnd(){
+	elQuestion = document.querySelector('.question');
+	elQuestion.innerHTML = '';
+	strHTML=``;
+	var elDiv=document.createElement('div');
+	elDiv.className='result';
+	for(let i=0;i<count;i++){
+		strHTML+='<i class="star fa fa-star" aria-hidden="true"></i>';
+	}
+	for(let i=0;i<numOfQuestions-count;i++){
+		strHTML+='<i class="star-f fa fa-star" aria-hidden="true"></i>';
+	}
+	elDiv.innerHTML=strHTML;
+	elQuestion.appendChild(elDiv);
 }
 function shuffle(array) {
 	let currentIndex = array.length,

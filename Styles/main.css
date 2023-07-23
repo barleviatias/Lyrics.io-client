@@ -450,3 +450,11 @@ body {
   color: whitesmoke;
   text-align: center;
 }
+.star{
+  color: #00BD68;
+  font-size: 40px;
+}
+.star-f{
+  /* color: #00BD68; */
+  font-size: 40px;
+}
