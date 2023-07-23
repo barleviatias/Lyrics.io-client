@@ -473,3 +473,22 @@ display: flex;
   font-size: 14px;
   color: white;
 }
+.menu{
+  display: none;
+  color:whitesmoke;
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    display: none;
+    z-index: 999;
+  }
+  .menu{
+    display: block;
+    color:whitesmoke;
+  }
+  .main-container {
+    margin-left: 0;
+    margin-bottom: 100px;
+}
+}
