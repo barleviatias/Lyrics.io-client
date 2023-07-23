@@ -431,8 +431,8 @@ body {
 .question button:hover{
   color:whitesmoke;
   text-align: center;
-  background-image: linear-gradient(-180deg, #00D775, #00BD68);
-  border-radius:#1db954 ;
+  background-image: none;
+  border: 2px solid #1db954;
 
   margin-bottom: 20px;
 }
@@ -457,4 +457,19 @@ body {
 .star-f{
   /* color: #00BD68; */
   font-size: 40px;
+}
+.timer-div{
+display: flex;
+    height: 30px;
+    width: 30px;
+    border: 2px solid white;
+    border-radius: 50%;
+    background-color: #00BD68;
+    align-items: center;
+    justify-content: center;
+}
+.timer{
+  /* padding: 20px; */
+  font-size: 14px;
+  color: white;
 }

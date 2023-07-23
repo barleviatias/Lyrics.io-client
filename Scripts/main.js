@@ -1,8 +1,11 @@
 let likedSongsId = [];
 const numOfQuestions = 5;
 let score = 0;
+let timeLeft = 30; // Set the initial time in seconds
+let timerInterval; // Variable to store the interval reference
 let rnd;
-let count=0;
+let hints=2;
+let count = 0;
 let quizeArr = [];
 let bar;
 let api = 'https://localhost:7245/';
@@ -396,6 +399,8 @@ function startGame() {
 	let elcontainer = document.querySelector('.spotify-playlists');
 	elcontainer.innerHTML = '';
 	score = 0;
+	count = 0;
+	hints=2;
 	rnd;
 	quizeArr = [];
 	let arrGame = JSON.parse(localStorage.getItem('songs'));
@@ -419,32 +424,48 @@ function startGame() {
 }
 
 function renderQuestion(q) {
-	if(quizeArr.length!=0){
+	if (quizeArr.length != 0) {
 		elScore = document.querySelector('.score');
 		elQuestion = document.querySelector('.question');
 		elQuestion.innerHTML = '';
+		var timerDiv = document.createElement('div');
+		timerDiv.className = 'timer-div';
+		var timerlbl = document.createElement('p');
+		timerlbl.className = 'timer';
+		timerDiv.appendChild(timerlbl);
+		elQuestion.appendChild(timerDiv);
 		var question = document.createElement('h2');
 		question.innerText = q.q;
 		elQuestion.appendChild(question);
 		for (let i = 0; i < q.options.length; i++) {
 			const btnOpt = document.createElement('button');
 			btnOpt.innerText = q.options[i];
-			btnOpt.className='option'
+			btnOpt.className = 'option';
 			btnOpt.id = q.options[i];
 			btnOpt.addEventListener('click', () => {
+				clearInterval(timerInterval);
 				checkAns(btnOpt.id, q);
 			});
 			elQuestion.appendChild(btnOpt);
 		}
-		var lblMsg = document.createElement('p');
-		lblMsg.className = 'lbl-message';
-		elQuestion.appendChild(lblMsg);
-		elScore.innerText="score:"+score;
-	}
-	else{
-		console.log("game ended");
+		if(hints>0){
+
+			var hintBtn = document.createElement('button');
+			hintBtn.className = 'btn-hint';
+			hintBtn.innerText = 'Get Hint';
+			// hintBtn.onclick=getHint();
+			hintBtn.addEventListener('click', () => {
+				getHint(q);
+			});
+			elQuestion.appendChild(hintBtn);
+		}
+		elScore.innerText = 'score:' + score;
+		startTimer();
+	} else {
+		console.log('game ended');
+		console.log(count);
 		quizeEnd();
-		console.log("your score is "+score);
+		console.log('your score is ' + score);
 	}
 }
 
@@ -452,36 +473,33 @@ async function checkAns(ans, q) {
 	let elLbl = document.querySelector('.lbl-message');
 	elBtn = document.getElementById(ans);
 	if (ans == q.a) {
-		elLbl.innerText = 'Correct';
-		// console.log("correct!");
-		score += 10;
+		score += 10 * timeLeft;
 		count++;
 		elBtn.className = 'correct';
 	} else {
-		// console.log("try againg");
-		elLbl.innerText = 'Wrong';
 		elBtn.className = 'wrong';
 	}
-	elOpt=document.querySelectorAll(".option");
-	for(let i=0;i<elOpt.length;i++){
-		elOpt[i].disabled=true; 
+	elOpt = document.querySelectorAll('.option');
+	for (let i = 0; i < elOpt.length; i++) {
+		elOpt[i].disabled = true;
 	}
-	await sleep(2 * 1000);
+	await sleep(1 * 1000);
 	renderQuestion(quizeArr.pop());
 }
-function quizeEnd(){
+function quizeEnd() {
 	elQuestion = document.querySelector('.question');
 	elQuestion.innerHTML = '';
-	strHTML=``;
-	var elDiv=document.createElement('div');
-	elDiv.className='result';
-	for(let i=0;i<count;i++){
-		strHTML+='<i class="star fa fa-star" aria-hidden="true"></i>';
+	strHTML = `Your Result is:`;
+	console.log(count);
+	var elDiv = document.createElement('div');
+	elDiv.className = 'result';
+	for (let i = 0; i < count; i++) {
+		strHTML += '<i class="star fa fa-star" aria-hidden="true"></i>';
 	}
-	for(let i=0;i<numOfQuestions-count;i++){
-		strHTML+='<i class="star-f fa fa-star" aria-hidden="true"></i>';
+	for (let i = 0; i < numOfQuestions - count; i++) {
+		strHTML += '<i class="star-f fa fa-star" aria-hidden="true"></i>';
 	}
-	elDiv.innerHTML=strHTML;
+	elDiv.innerHTML = strHTML;
 	elQuestion.appendChild(elDiv);
 }
 function shuffle(array) {
@@ -506,4 +524,67 @@ function shuffle(array) {
 
 function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function startTimer() {
+	timeLeft = 30; // Reset the timer to 10 seconds
+	updateTimerDisplay();
+
+	// Start the timer interval
+	timerInterval = setInterval(function () {
+		timeLeft -= 1;
+		updateTimerDisplay();
+
+		// Check if the timer has reached 0
+		if (timeLeft <= 0) {
+			clearInterval(timerInterval); // Clear the interval when time is up
+
+			console.log("Time's up!");
+			renderQuestion(quizeArr.pop());
+			// handleTimeUp();
+		}
+	}, 1000);
+}
+
+function updateTimerDisplay() {
+	const timerDiv = document.querySelector('.timer');
+	if (timerDiv) {
+		timerDiv.innerText = `${timeLeft}`;
+	}
+}
+
+function getHint(q) {
+	hints--;
+	elQuestion = document.querySelector('.question');
+	elQuestion.innerHTML = '';
+	hintQ = q.options;
+	while (hintQ.length > 2) {
+		temp = hintQ.pop();
+		if (temp == q.a) {
+			hintQ.unshift(temp);
+		}
+	}
+	hintQ = shuffle(hintQ);
+	console.log(hintQ);
+	var timerDiv = document.createElement('div');
+	timerDiv.className = 'timer-div';
+	var timerlbl = document.createElement('p');
+	timerlbl.className = 'timer';
+	timerDiv.appendChild(timerlbl);
+	elQuestion.appendChild(timerDiv);
+	var question = document.createElement('h2');
+	question.innerText = q.q;
+	elQuestion.appendChild(question);
+	for (let j = 0; j < hintQ.length; j++) {
+		console.log('render: ' + j);
+		const btnOp = document.createElement('button');
+		btnOp.innerText = hintQ[j];
+		btnOp.className = 'option';
+		btnOp.id = hintQ[j];
+		btnOp.addEventListener('click', () => {
+			clearInterval(timerInterval);
+			checkAns(btnOp.id, q);
+		});
+		elQuestion.appendChild(btnOp);
+	}
 }
