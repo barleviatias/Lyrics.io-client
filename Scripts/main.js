@@ -4,7 +4,7 @@ let score = 0;
 let timeLeft = 30; // Set the initial time in seconds
 let timerInterval; // Variable to store the interval reference
 let rnd;
-let hints=2;
+let hints = 2;
 let count = 0;
 let quizeArr = [];
 let bar;
@@ -130,7 +130,6 @@ function renderSongs(data, showSearch = 0) {
             addToFavoritesButton.innerHTML =
               '<i class="fa-solid fa-heart"></i>';
           }
-          
         },
         (err) => {
           alert(err);
@@ -143,7 +142,6 @@ function renderSongs(data, showSearch = 0) {
     container.appendChild(item);
   }
 }
-
 
 function renderArtist(name) {
   showLoader();
@@ -236,18 +234,18 @@ function renderArtist(name) {
       urlLink.textContent = "Visit Last.fm page";
       artistInfoDiv.appendChild(urlLink);
 
-			// Render the URL
-			var urlLink = document.createElement('q');
-			urlLink.href = artistData.url;
-			urlLink.textContent = 'Visit Last.fm page';
-			artistInfoDiv.appendChild(urlLink);
+      // Render the URL
+      var urlLink = document.createElement("q");
+      urlLink.href = artistData.url;
+      urlLink.textContent = "Visit Last.fm page";
+      artistInfoDiv.appendChild(urlLink);
 
-			// Append the artist information div to the container
-			container.appendChild(artistInfoDiv);
-		})
-		.catch((error) => {
-			console.error('Error:', error);
-		});
+      // Append the artist information div to the container
+      container.appendChild(artistInfoDiv);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }
 function renderSong(songId) {
   showLoader();
@@ -262,7 +260,7 @@ function renderSong(songId) {
       artistInfoDiv.classList.add("artist-info");
 
       var bioTitle = document.createElement("h2");
-	  searchSong(s.song);
+      searchSong(s.song);
       bioTitle.textContent = s.song;
       artistInfoDiv.appendChild(bioTitle);
       // Render the artist name
@@ -414,301 +412,342 @@ function HideAll() {
   document.querySelector(".videos").style.display = "none";
 }
 
-function Show(){
-	var data = {
-		'url': 'https://audd.tech/example.mp3',
-		'return': 'apple_music,spotify',
-		'api_token': 'test'}
-	
-	$.getJSON('https://api.audd.io/?jsonp=?', data, function(result){
-		console.log(result);
-	});
-}
+function Show() {
+  var data = {
+    url: "https://audd.tech/example.mp3",
+    return: "apple_music,spotify",
+    api_token: "test",
+  };
 
+  $.getJSON("https://api.audd.io/?jsonp=?", data, function (result) {
+    console.log(result);
+  });
+}
 
 function searchSong(songName) {
-	const apiKey = 'AIzaSyDp9sFEyhoz0XNo1iKtnGPiipf7TdRhH7g';
-	
+  const apiKey = "AIzaSyDp9sFEyhoz0XNo1iKtnGPiipf7TdRhH7g";
 
-	fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(songName)}&type=video&key=${apiKey}`)
-	  .then(response => response.json())
-	  .then(data => {
-		if (data.items.length > 0) {
-		  const videoId = data.items[0].id.videoId;
-		  const link = `https://www.youtube.com/watch?v=${videoId}`;
-		  console.log(link); 
-		  playVideo(link);// You can do whatever you want with the link here
-		} else {
-		  console.log("No videos found for the given song name.");
-		}
-	  })
-	  .catch(error => {
-		console.error('Error fetching data:', error);
-	  });
-  }
-  function playVideo(youtubeUrl) {
-	const videoId = extractVideoId(youtubeUrl);
+  fetch(
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
+      songName
+    )}&type=video&key=${apiKey}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.items.length > 0) {
+        const videoId = data.items[0].id.videoId;
+        const link = `https://www.youtube.com/watch?v=${videoId}`;
+        console.log(link);
+        playVideo(link); // You can do whatever you want with the link here
+      } else {
+        console.log("No videos found for the given song name.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+}
+function playVideo(youtubeUrl) {
+  const videoId = extractVideoId(youtubeUrl);
 
-	if (videoId) {
-	  const playerDiv = document.querySelector(".videos");
-	  playerDiv.style.display="block";
-	  playerDiv.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-	} else {
-	  console.error("Invalid YouTube URL.");
-	}
+  if (videoId) {
+    const playerDiv = document.querySelector(".videos");
+    playerDiv.style.display = "block";
+    playerDiv.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+  } else {
+    console.error("Invalid YouTube URL.");
   }
+}
 
-  function extractVideoId(url) {
-	const match = url.match(/(?:https?:\/\/)?(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-]+)/);
-	return match ? match[1] : null;
-  }
+function extractVideoId(url) {
+  const match = url.match(
+    /(?:https?:\/\/)?(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-]+)/
+  );
+  return match ? match[1] : null;
+}
 
 function Search() {
-	let val = document.getElementById('search-input').value;
-	if (val == '') {
-		alert('Please Insert Search key');
-		return;
-	}
-	let type =
-		document.getElementById('search-type').options[
-			document.getElementById('search-type').selectedIndex
-		].innerHTML;
-	if (type == 'Song Name') {
-		let nameApi = api + 'api/Songs/GetBySongName/song/' + val;
-		ajaxCall(
-			'GET',
-			nameApi,
-			null,
-			(data) => {
-				console.log(data);
-				renderSongs(data, 1);
-			},
-			(err) => {
-				alert(err);
-			}
-		);
-	}
-	if (type == 'Artist') {
-		let artistApi = api + 'api/Songs/GetSongsByARTIST/artist/' + val;
-		ajaxCall(
-			'GET',
-			artistApi,
-			null,
-			(data) => {
-				console.log(data);
-				renderSongs(data, 1);
-			},
-			(err) => {
-				alert(err);
-			}
-		);
-	}
-	if (type == 'Lyrics') {
-		let lyricsApi = api + 'api/Songs/GetBySongLyrics/lyrics/' + val;
-		ajaxCall(
-			'GET',
-			lyricsApi,
-			null,
-			(data) => {
-				console.log(data);
-				renderSongs(data, 1);
-			},
-			(err) => {
-				alert(err);
-			}
-		);
-	}
+  let val = document.getElementById("search-input").value;
+  if (val == "") {
+    alert("Please Insert Search key");
+    return;
+  }
+  let type =
+    document.getElementById("search-type").options[
+      document.getElementById("search-type").selectedIndex
+    ].innerHTML;
+  if (type == "Song Name") {
+    let nameApi = api + "api/Songs/GetBySongName/song/" + val;
+    ajaxCall(
+      "GET",
+      nameApi,
+      null,
+      (data) => {
+        console.log(data);
+        renderSongs(data, 1);
+      },
+      (err) => {
+        alert(err);
+      }
+    );
+  }
+  if (type == "Artist") {
+    let artistApi = api + "api/Songs/GetSongsByARTIST/artist/" + val;
+    ajaxCall(
+      "GET",
+      artistApi,
+      null,
+      (data) => {
+        console.log(data);
+        renderSongs(data, 1);
+      },
+      (err) => {
+        alert(err);
+      }
+    );
+  }
+  if (type == "Lyrics") {
+    let lyricsApi = api + "api/Songs/GetBySongLyrics/lyrics/" + val;
+    ajaxCall(
+      "GET",
+      lyricsApi,
+      null,
+      (data) => {
+        console.log(data);
+        renderSongs(data, 1);
+      },
+      (err) => {
+        alert(err);
+      }
+    );
+  }
 }
 function startGame() {
-	let elcontainer = document.querySelector('.spotify-playlists');
-	elcontainer.innerHTML = '';
-	score = 0;
-	count = 0;
-	hints=2;
-	rnd;
-	quizeArr = [];
-	let arrGame = JSON.parse(localStorage.getItem('songs'));
-	for (let i = 0; i < numOfQuestions; i++) {
-		rnd = Math.floor(Math.random() * arrGame.length);
-		let opt = [];
-		let question = {
-			q: 'what song belong to ' + arrGame[rnd].artist,
-			a: arrGame[rnd].song,
-			options: [],
-		};
-		for (let j = 0; j < 4; j++) {
-			opt.push(arrGame[rnd].song);
-			arrGame.splice(rnd, 1);
-			rnd = Math.floor(Math.random() * arrGame.length);
-		}
-		question.options = shuffle(opt);
-		quizeArr.push(question);
-	}
-	renderQuestion(quizeArr.pop());
+  let elcontainer = document.querySelector(".spotify-playlists");
+  elcontainer.innerHTML = "";
+  score = 0;
+  count = 0;
+  hints = 2;
+  rnd;
+  quizeArr = [];
+  let arrGame = JSON.parse(localStorage.getItem("songs"));
+  for (let i = 0; i < numOfQuestions; i++) {
+    rnd = Math.floor(Math.random() * arrGame.length);
+    let opt = [];
+    let question = {
+      q: "what song belong to " + arrGame[rnd].artist,
+      a: arrGame[rnd].song,
+      options: [],
+    };
+    for (let j = 0; j < 4; j++) {
+      opt.push(arrGame[rnd].song);
+      arrGame.splice(rnd, 1);
+      rnd = Math.floor(Math.random() * arrGame.length);
+    }
+    question.options = shuffle(opt);
+    quizeArr.push(question);
+  }
+  renderQuestion(quizeArr.pop());
 }
 
 function renderQuestion(q) {
-	if (quizeArr.length != 0) {
-		elScore = document.querySelector('.score');
-		elQuestion = document.querySelector('.question');
-		elQuestion.innerHTML = '';
-		var timerDiv = document.createElement('div');
-		timerDiv.className = 'timer-div';
-		var timerlbl = document.createElement('p');
-		timerlbl.className = 'timer';
-		timerDiv.appendChild(timerlbl);
-		elQuestion.appendChild(timerDiv);
-		var question = document.createElement('h2');
-		question.innerText = q.q;
-		elQuestion.appendChild(question);
-		for (let i = 0; i < q.options.length; i++) {
-			const btnOpt = document.createElement('button');
-			btnOpt.innerText = q.options[i];
-			btnOpt.className = 'option';
-			btnOpt.id = q.options[i];
-			btnOpt.addEventListener('click', () => {
-				clearInterval(timerInterval);
-				checkAns(btnOpt.id, q);
-			});
-			elQuestion.appendChild(btnOpt);
-		}
-		if(hints>0){
-
-			var hintBtn = document.createElement('button');
-			hintBtn.className = 'btn-hint';
-			hintBtn.innerText = 'Get Hint';
-			// hintBtn.onclick=getHint();
-			hintBtn.addEventListener('click', () => {
-				getHint(q);
-			});
-			elQuestion.appendChild(hintBtn);
-		}
-		elScore.innerText = 'score:' + score;
-		startTimer();
-	} else {
-		console.log('game ended');
-		console.log(count);
-		quizeEnd();
-		console.log('your score is ' + score);
-	}
+  if (quizeArr.length != 0) {
+    elScore = document.querySelector(".score");
+    elQuestion = document.querySelector(".question");
+    elQuestion.innerHTML = "";
+    var timerDiv = document.createElement("div");
+    timerDiv.className = "timer-div";
+    var timerlbl = document.createElement("p");
+    timerlbl.className = "timer";
+    timerDiv.appendChild(timerlbl);
+    elQuestion.appendChild(timerDiv);
+    var question = document.createElement("h2");
+    question.innerText = q.q;
+    elQuestion.appendChild(question);
+    for (let i = 0; i < q.options.length; i++) {
+      const btnOpt = document.createElement("button");
+      btnOpt.innerText = q.options[i];
+      btnOpt.className = "option";
+      btnOpt.id = q.options[i];
+      btnOpt.addEventListener("click", () => {
+        clearInterval(timerInterval);
+        checkAns(btnOpt.id, q);
+      });
+      elQuestion.appendChild(btnOpt);
+    }
+    if (hints > 0) {
+      var hintBtn = document.createElement("button");
+      hintBtn.className = "btn-hint";
+      hintBtn.innerText = "Get Hint";
+      // hintBtn.onclick=getHint();
+      hintBtn.addEventListener("click", () => {
+        getHint(q);
+      });
+      elQuestion.appendChild(hintBtn);
+    }
+    elScore.innerText = "score:" + score;
+    startTimer();
+  } else {
+    console.log("game ended");
+    console.log(count);
+    quizeEnd();
+    console.log("your score is " + score);
+  }
 }
 
 async function checkAns(ans, q) {
-	let elLbl = document.querySelector('.lbl-message');
-	elBtn = document.getElementById(ans);
-	if (ans == q.a) {
-		score += 10 * timeLeft;
-		count++;
-		elBtn.className = 'correct';
-	} else {
-		elBtn.className = 'wrong';
-	}
-	elOpt = document.querySelectorAll('.option');
-	for (let i = 0; i < elOpt.length; i++) {
-		elOpt[i].disabled = true;
-	}
-	await sleep(1 * 1000);
-	renderQuestion(quizeArr.pop());
+  let elLbl = document.querySelector(".lbl-message");
+  elBtn = document.getElementById(ans);
+  if (ans == q.a) {
+    score += 10 * timeLeft;
+    count++;
+    elBtn.className = "correct";
+  } else {
+    elBtn.className = "wrong";
+  }
+  elOpt = document.querySelectorAll(".option");
+  for (let i = 0; i < elOpt.length; i++) {
+    elOpt[i].disabled = true;
+  }
+  await sleep(1 * 1000);
+  renderQuestion(quizeArr.pop());
 }
 function quizeEnd() {
-	elQuestion = document.querySelector('.question');
-	elQuestion.innerHTML = '';
-	strHTML = `Your Result is:`;
-	console.log(count);
-	var elDiv = document.createElement('div');
-	elDiv.className = 'result';
-	for (let i = 0; i < count; i++) {
-		strHTML += '<i class="star fa fa-star" aria-hidden="true"></i>';
-	}
-	for (let i = 0; i < numOfQuestions - count; i++) {
-		strHTML += '<i class="star-f fa fa-star" aria-hidden="true"></i>';
-	}
-	elDiv.innerHTML = strHTML;
-	elQuestion.appendChild(elDiv);
+  elQuestion = document.querySelector(".question");
+  elQuestion.innerHTML = "";
+  strHTML = `Your Result is:`;
+  console.log(count);
+  var elDiv = document.createElement("div");
+  elDiv.className = "result";
+  for (let i = 0; i < count; i++) {
+    strHTML += '<i class="star fa fa-star" aria-hidden="true"></i>';
+  }
+  for (let i = 0; i < numOfQuestions - count; i++) {
+    strHTML += '<i class="star-f fa fa-star" aria-hidden="true"></i>';
+  }
+  InsertScore();
+  elDiv.innerHTML = strHTML;
+  elQuestion.appendChild(elDiv);
 }
 function shuffle(array) {
-	let currentIndex = array.length,
-		randomIndex;
+  let currentIndex = array.length,
+    randomIndex;
 
-	// While there remain elements to shuffle.
-	while (currentIndex != 0) {
-		// Pick q remaining element.
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex--;
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+    // Pick q remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
 
-		// And swap it with the current element.
-		[array[currentIndex], array[randomIndex]] = [
-			array[randomIndex],
-			array[currentIndex],
-		];
-	}
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
 
-	return array;
+  return array;
 }
 
 function sleep(ms) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function startTimer() {
-	timeLeft = 30; // Reset the timer to 10 seconds
-	updateTimerDisplay();
+  timeLeft = 30; // Reset the timer to 10 seconds
+  updateTimerDisplay();
 
-	// Start the timer interval
-	timerInterval = setInterval(function () {
-		timeLeft -= 1;
-		updateTimerDisplay();
+  // Start the timer interval
+  timerInterval = setInterval(function () {
+    timeLeft -= 1;
+    updateTimerDisplay();
 
-		// Check if the timer has reached 0
-		if (timeLeft <= 0) {
-			clearInterval(timerInterval); // Clear the interval when time is up
+    // Check if the timer has reached 0
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval); // Clear the interval when time is up
 
-			console.log("Time's up!");
-			renderQuestion(quizeArr.pop());
-			// handleTimeUp();
-		}
-	}, 1000);
+      console.log("Time's up!");
+      renderQuestion(quizeArr.pop());
+      // handleTimeUp();
+    }
+  }, 1000);
 }
 
 function updateTimerDisplay() {
-	const timerDiv = document.querySelector('.timer');
-	if (timerDiv) {
-		timerDiv.innerText = `${timeLeft}`;
-	}
+  const timerDiv = document.querySelector(".timer");
+  if (timerDiv) {
+    timerDiv.innerText = `${timeLeft}`;
+  }
 }
 
 function getHint(q) {
-	hints--;
-	elQuestion = document.querySelector('.question');
-	elQuestion.innerHTML = '';
-	hintQ = q.options;
-	while (hintQ.length > 2) {
-		temp = hintQ.pop();
-		if (temp == q.a) {
-			hintQ.unshift(temp);
-		}
-	}
-	hintQ = shuffle(hintQ);
-	console.log(hintQ);
-	var timerDiv = document.createElement('div');
-	timerDiv.className = 'timer-div';
-	var timerlbl = document.createElement('p');
-	timerlbl.className = 'timer';
-	timerDiv.appendChild(timerlbl);
-	elQuestion.appendChild(timerDiv);
-	var question = document.createElement('h2');
-	question.innerText = q.q;
-	elQuestion.appendChild(question);
-	for (let j = 0; j < hintQ.length; j++) {
-		console.log('render: ' + j);
-		const btnOp = document.createElement('button');
-		btnOp.innerText = hintQ[j];
-		btnOp.className = 'option';
-		btnOp.id = hintQ[j];
-		btnOp.addEventListener('click', () => {
-			clearInterval(timerInterval);
-			checkAns(btnOp.id, q);
-		});
-		elQuestion.appendChild(btnOp);
-	}
+  hints--;
+  elQuestion = document.querySelector(".question");
+  elQuestion.innerHTML = "";
+  hintQ = q.options;
+  while (hintQ.length > 2) {
+    temp = hintQ.pop();
+    if (temp == q.a) {
+      hintQ.unshift(temp);
+    }
+  }
+  hintQ = shuffle(hintQ);
+  console.log(hintQ);
+  var timerDiv = document.createElement("div");
+  timerDiv.className = "timer-div";
+  var timerlbl = document.createElement("p");
+  timerlbl.className = "timer";
+  timerDiv.appendChild(timerlbl);
+  elQuestion.appendChild(timerDiv);
+  var question = document.createElement("h2");
+  question.innerText = q.q;
+  elQuestion.appendChild(question);
+  for (let j = 0; j < hintQ.length; j++) {
+    console.log("render: " + j);
+    const btnOp = document.createElement("button");
+    btnOp.innerText = hintQ[j];
+    btnOp.className = "option";
+    btnOp.id = hintQ[j];
+    btnOp.addEventListener("click", () => {
+      clearInterval(timerInterval);
+      checkAns(btnOp.id, q);
+    });
+    elQuestion.appendChild(btnOp);
+  }
+}
+function InsertScore() {
+  let curUser = JSON.parse(localStorage.getItem("user"));
+  let InsertScoreAPI =
+    api + "api/Users/InsertScore/userId/" + curUser.id + "/score/" + score;
+  ajaxCall(
+    "POST",
+    InsertScoreAPI,
+    null,
+    (data) => {
+      console.log("Insert Score");
+    },
+    (err) => {
+      alert(err);
+    }
+  );
+}
+function GetScore() {
+  let curUser = JSON.parse(localStorage.getItem("user"));
+  let GetScoreAPI = api + "api/Users/GetAllScores";
+  ajaxCall(
+    "GET",
+    GetScoreAPI,
+    null,
+    (data) => {
+      for(let d in data){
+        if(data[d][0]==curUser.id){
+          console.log(data[d][1]);
+          return;
+        }
+      }
+    },
+    (err) => {
+      alert(err);
+    }
+  );
 }
