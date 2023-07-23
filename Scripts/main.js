@@ -406,29 +406,6 @@ function Search() {
     );
   }
 }
-function startGame() {
-  const numOfQuestions = 5;
-  let score = 0;
-  let quizeArr = [];
-  let arrGame = JSON.parse(localStorage.getItem("songs"));
-  for (let i = 0; i < numOfQuestions; i++) {
-    let rnd = Math.floor(Math.random() * arrGame.length);
-    let opt = [];
-    let question = {
-      q: arrGame[rnd].artist,
-      a: arrGame[rnd].song,
-      options: [],
-    };
-    for (let j = 0; j < 4; j++) {
-      let rnd = Math.floor(Math.random() * arrGame.length);
-      opt.push(arrGame[rnd].song);
-      arrGame.splice(rnd, 1);
-    }
-    question.options = opt;
-    quizeArr.push(question);
-  }
-  console.log(quizeArr);
-}
 
 function HideAll() {
   document.querySelector(".spotify-playlists").style.display = "none";
@@ -485,6 +462,137 @@ function searchSong(songName) {
 	const match = url.match(/(?:https?:\/\/)?(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-]+)/);
 	return match ? match[1] : null;
   }
+
+function Search() {
+	let val = document.getElementById('search-input').value;
+	if (val == '') {
+		alert('Please Insert Search key');
+		return;
+	}
+	let type =
+		document.getElementById('search-type').options[
+			document.getElementById('search-type').selectedIndex
+		].innerHTML;
+	if (type == 'Song Name') {
+		let nameApi = api + 'api/Songs/GetBySongName/song/' + val;
+		ajaxCall(
+			'GET',
+			nameApi,
+			null,
+			(data) => {
+				console.log(data);
+				renderSongs(data, 1);
+			},
+			(err) => {
+				alert(err);
+			}
+		);
+	}
+	if (type == 'Artist') {
+		let artistApi = api + 'api/Songs/GetSongsByARTIST/artist/' + val;
+		ajaxCall(
+			'GET',
+			artistApi,
+			null,
+			(data) => {
+				console.log(data);
+				renderSongs(data, 1);
+			},
+			(err) => {
+				alert(err);
+			}
+		);
+	}
+	if (type == 'Lyrics') {
+		let lyricsApi = api + 'api/Songs/GetBySongLyrics/lyrics/' + val;
+		ajaxCall(
+			'GET',
+			lyricsApi,
+			null,
+			(data) => {
+				console.log(data);
+				renderSongs(data, 1);
+			},
+			(err) => {
+				alert(err);
+			}
+		);
+	}
+}
+function startGame() {
+	let elcontainer = document.querySelector('.spotify-playlists');
+	elcontainer.innerHTML = '';
+	score = 0;
+	count = 0;
+	hints=2;
+	rnd;
+	quizeArr = [];
+	let arrGame = JSON.parse(localStorage.getItem('songs'));
+	for (let i = 0; i < numOfQuestions; i++) {
+		rnd = Math.floor(Math.random() * arrGame.length);
+		let opt = [];
+		let question = {
+			q: 'what song belong to ' + arrGame[rnd].artist,
+			a: arrGame[rnd].song,
+			options: [],
+		};
+		for (let j = 0; j < 4; j++) {
+			opt.push(arrGame[rnd].song);
+			arrGame.splice(rnd, 1);
+			rnd = Math.floor(Math.random() * arrGame.length);
+		}
+		question.options = shuffle(opt);
+		quizeArr.push(question);
+	}
+	renderQuestion(quizeArr.pop());
+}
+
+function renderQuestion(q) {
+	if (quizeArr.length != 0) {
+		elScore = document.querySelector('.score');
+		elQuestion = document.querySelector('.question');
+		elQuestion.innerHTML = '';
+		var timerDiv = document.createElement('div');
+		timerDiv.className = 'timer-div';
+		var timerlbl = document.createElement('p');
+		timerlbl.className = 'timer';
+		timerDiv.appendChild(timerlbl);
+		elQuestion.appendChild(timerDiv);
+		var question = document.createElement('h2');
+		question.innerText = q.q;
+		elQuestion.appendChild(question);
+		for (let i = 0; i < q.options.length; i++) {
+			const btnOpt = document.createElement('button');
+			btnOpt.innerText = q.options[i];
+			btnOpt.className = 'option';
+			btnOpt.id = q.options[i];
+			btnOpt.addEventListener('click', () => {
+				clearInterval(timerInterval);
+				checkAns(btnOpt.id, q);
+			});
+			elQuestion.appendChild(btnOpt);
+		}
+		if(hints>0){
+
+			var hintBtn = document.createElement('button');
+			hintBtn.className = 'btn-hint';
+			hintBtn.innerText = 'Get Hint';
+			// hintBtn.onclick=getHint();
+			hintBtn.addEventListener('click', () => {
+				getHint(q);
+			});
+			elQuestion.appendChild(hintBtn);
+		}
+		elScore.innerText = 'score:' + score;
+		startTimer();
+	} else {
+		console.log('game ended');
+		console.log(count);
+		quizeEnd();
+		console.log('your score is ' + score);
+	}
+}
+
 async function checkAns(ans, q) {
 	let elLbl = document.querySelector('.lbl-message');
 	elBtn = document.getElementById(ans);
@@ -571,7 +679,6 @@ function updateTimerDisplay() {
 
 function getHint(q) {
 	hints--;
-	let bar;
 	elQuestion = document.querySelector('.question');
 	elQuestion.innerHTML = '';
 	hintQ = q.options;
