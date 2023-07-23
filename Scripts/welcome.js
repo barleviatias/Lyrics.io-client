@@ -4,10 +4,9 @@ const elcheckbox = document.querySelector("input[type='checkbox']");
 console.log(elcheckbox);
 console.log("loading");
 
-// checkbox.addEventListener("toggleDarkMode", () => {
-//   log("change");
-//   document.body.classList.toggle("dark-mode")
-// })
+
+// bug when signup user obj dont save the id 
+
 function OpenSignUp() {
   let l = document.querySelector(".SignIn");
   let p = document.querySelector(".SignUp");

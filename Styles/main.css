@@ -339,11 +339,27 @@ body {
   display: flex;
   color: whitesmoke;
   flex-direction: column;
-  align-content: center;
   justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+.artist-info p{
+  text-align: center;
+  width: 40%;
+}
+.artist-info h2{
+  text-align: center;
+  color: #1db954;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+.artist-info h3{
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 .spotify-playlists h2 {
-  color: #ffffff;
+  /* color: #ffffff; */
   text-align: center;
   font-size: 30px;
   margin-bottom: 20px;

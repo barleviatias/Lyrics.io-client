@@ -1,84 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
-    crossorigin="anonymous"></script>
-    <script src="../Scripts/ajaxCalls.js"></script>
-    <script src="../Scripts/main.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../Styles/global.css">
-    <link rel="stylesheet" href="../Styles/main.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="../Scripts/ajaxCalls.js"></script>
+  <script src="../Scripts/main.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../Styles/global.css">
+  <link rel="stylesheet" href="../Styles/main.css">
+  <title>Document</title>
 </head>
+
 <body onload="init()">
   <div id="loader"></div>
-    <div class="sidebar">
-      <div class="logo">
-        <a href="#">
-          <img src="../img/2.png" alt="Logo" />
-        </a>
-      </div>
-
-      <div class="navigation">
-        <ul>
-          <li onclick="getSongs()">
-            <a href="#">
-              <span class="fa fa-home"></span>
-              <span>Home</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="#">
-              <span class="fa fa-search"></span>
-              <span onclick="OpenSearch()">Search</span>
-            </a>
-          </li>
-
-          
-        </ul>
-      </div>
-
-      <div class="navigation">
-        <ul>
-          
-
-          <li onclick="getLikedSongs()">
-            <a href="#">
-              <span class="fa fas fa-heart"></span>
-              <span>Liked Songs</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-    
+  <div class="sidebar">
+    <div class="logo">
+      <a href="#">
+        <img src="../img/2.png" alt="Logo" />
+      </a>
     </div>
 
-    <div class="main-container">
-      <div class="topbar">
-        <div class="prev-next-buttons">
-          <!-- <button type="button" class="fa fas fa-chevron-left centers" ></button>
+    <div class="navigation">
+      <ul>
+        <li onclick="getSongs()">
+          <a href="#">
+            <span class="fa fa-home"></span>
+            <span>Home</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            <span class="fa fa-search"></span>
+            <span onclick="OpenSearch()">Search</span>
+          </a>
+        </li>
+
+
+      </ul>
+    </div>
+
+    <div class="navigation">
+      <ul>
+
+
+        <li onclick="getLikedSongs()">
+          <a href="#">
+            <span class="fa fas fa-heart"></span>
+            <span>Liked Songs</span>
+          </a>
+        </li>
+        <li onclick="startGame()">
+          <a href="#">
+            <span class="fa fa-gamepad"></span>
+            <span>Quize</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+
+  </div>
+
+  <div class="main-container">
+    <div class="topbar">
+      <div class="prev-next-buttons">
+        <!-- <button type="button" class="fa fas fa-chevron-left centers" ></button>
           <button type="button" class="fa fas fa-chevron-right centers" ></button> -->
-        </div>
-
-        <div class="navbar">
-          <p class="hello">hello bar</p>
-          <button onclick="logout()"  id="centers" type="button">Logout</button>
-        </div>
       </div>
-      <div class="search-div"></div>
-      <div class="spotify-playlists">
-       
+
+      <div class="navbar">
+        <p class="hello">hello bar</p>
+        <button onclick="logout()" id="centers" type="button">Logout</button>
+      </div>
+    </div>
+    <div class="search-div"></div>
+    <div class="spotify-playlists">
+
+    </div>
+    <div class="quize-div">
+      <button>Artists</button>
+      <button>Songs</button>
     </div>
 
-    <script
-      src="https://kit.fontawesome.com/23cecef777.js"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+    <script src="https://kit.fontawesome.com/23cecef777.js" crossorigin="anonymous"></script>
+</body>
+
 </html>

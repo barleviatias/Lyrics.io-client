@@ -46,7 +46,7 @@ async function getLikedSongs() {
 	console.log(lstLikedSongs);
 }
 function renderSongs(data, showSearch = 0) {
-	document.querySelector('.spotify-playlists').style.display="block";
+	document.querySelector('.spotify-playlists').style.display = 'block';
 	if (showSearch == 0) {
 		document.querySelector('.search-div').innerHTML = '';
 	}
@@ -73,11 +73,11 @@ function renderSongs(data, showSearch = 0) {
 
 		// Create and append the song element
 		const song = document.createElement('p');
-    song.id=d.id;
+		song.id = d.id;
 		song.innerText = d.song.trim();
-    song.addEventListener('click',()=>{
-      renderSong(song.id);
-    });
+		song.addEventListener('click', () => {
+			renderSong(song.id);
+		});
 		item.appendChild(song);
 
 		const addToFavoritesButton = document.createElement('button');
@@ -136,13 +136,12 @@ function renderSongs(data, showSearch = 0) {
 
 function renderArtist(name) {
 	showLoader();
-	let image_url='../img/user.png';
+	let image_url = '../img/user.png';
 	const apiUrl =
 		'https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' +
 		name +
 		'&api_key=0cf192ec4e9d4768370298d196df5ff2&format=json';
 	fetch(apiUrl)
-	
 		.then((response) => response.json())
 		.then((data) => {
 			hideLoader();
@@ -152,31 +151,44 @@ function renderArtist(name) {
 			artistData = data.artist;
 			console.log(artistData.name);
 			if (artistData.mbid) {
-				const url = 'https://musicbrainz.org/ws/2/artist/' + artistData.mbid + '?inc=url-rels&fmt=json';
+				const url =
+					'https://musicbrainz.org/ws/2/artist/' +
+					artistData.mbid +
+					'?inc=url-rels&fmt=json';
 				console.log(url);
-				 fetch(url)
-					 .then(res => res.json())
-					 .then((out) => {
-						 const relations = out.relations;
+				fetch(url)
+					.then((res) => res.json())
+					.then((out) => {
+						const relations = out.relations;
 						//  console.table(relations);
-						 // Find image relation
-						 for (let i = 0; i < relations.length; i++) {
-							 if (relations[i].type === 'image') {
-								 image_url = relations[i].url.resource;
-								 if (image_url.startsWith('https://commons.wikimedia.org/wiki/File:')) {
-									 const filename = image_url.substring(image_url.lastIndexOf('/') + 1);
-									 image_url = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + filename;
-								 }
+						// Find image relation
+						for (let i = 0; i < relations.length; i++) {
+							if (relations[i].type === 'image') {
+								image_url = relations[i].url.resource;
+								if (
+									image_url.startsWith(
+										'https://commons.wikimedia.org/wiki/File:'
+									)
+								) {
+									const filename = image_url.substring(
+										image_url.lastIndexOf('/') + 1
+									);
+									image_url =
+										'https://commons.wikimedia.org/wiki/Special:Redirect/file/' +
+										filename;
 								}
 							}
-							console.log(image_url);
-							var artistImg = document.createElement('img');
-							artistImg.src = image_url;
-							artistImg.className='artist-img'
-						   artistInfoDiv.insertBefore(artistImg,artistInfoDiv.firstChild);
-					 })
-					 .catch(err => { throw console.log(err) });
-					}
+						}
+						console.log(image_url);
+						var artistImg = document.createElement('img');
+						artistImg.src = image_url;
+						artistImg.className = 'artist-img';
+						artistInfoDiv.insertBefore(artistImg, artistInfoDiv.firstChild);
+					})
+					.catch((err) => {
+						throw console.log(err);
+					});
+			}
 			// Create the artist information div
 			var artistInfoDiv = document.createElement('div');
 			artistInfoDiv.classList.add('artist-info');
@@ -191,21 +203,8 @@ function renderArtist(name) {
 			artistInfoDiv.appendChild(bioTitle);
 			// Render the bio
 			var bioParagraph = document.createElement('p');
-			bioParagraph.textContent = artistData.bio.content;
+			bioParagraph.innerHTML = artistData.bio.content;
 			artistInfoDiv.appendChild(bioParagraph);
-
-			// Render the tags
-			var tagsHeading = document.createElement('h3');
-			tagsHeading.textContent = 'Tags';
-			artistInfoDiv.appendChild(tagsHeading);
-
-			var tagsList = document.createElement('ul');
-			artistData.tags.tag.forEach(function (tag) {
-				var tagItem = document.createElement('li');
-				tagItem.textContent = tag;
-				tagsList.appendChild(tagItem);
-			});
-			artistInfoDiv.appendChild(tagsList);
 
 			// Render the statistics
 			var statsHeading = document.createElement('h3');
@@ -236,33 +235,31 @@ function renderArtist(name) {
 }
 function renderSong(songId) {
 	showLoader();
-  songs = JSON.parse(localStorage.getItem('songs'));
-  const container = document.querySelector('.spotify-playlists');
-  container.innerHTML = '';
-  for (s of songs){
-    if(s.id==songId){
+	songs = JSON.parse(localStorage.getItem('songs'));
+	const container = document.querySelector('.spotify-playlists');
+	container.innerHTML = '';
+	for (s of songs) {
+		if (s.id == songId) {
+			// Create the artist information div
+			var artistInfoDiv = document.createElement('div');
+			artistInfoDiv.classList.add('artist-info');
 
-      // Create the artist information div
-      var artistInfoDiv = document.createElement('div');
-      artistInfoDiv.classList.add('artist-info');
-    
-      // Render the artist name
-      var artistNameHeading = document.createElement('h2');
-      artistNameHeading.textContent = s.name;
-      artistInfoDiv.appendChild(artistNameHeading);
-    
-      var bioTitle = document.createElement('p');
-      bioTitle.textContent = s.artist;
-      artistInfoDiv.appendChild(bioTitle);
-      // Render the bio
-      var bioParagraph = document.createElement('p');
-      bioParagraph.textContent = s.lyrics;
-      artistInfoDiv.appendChild(bioParagraph);
-  
-    }
-  }
+			var bioTitle = document.createElement('h2');
+			bioTitle.textContent = s.song;
+			artistInfoDiv.appendChild(bioTitle);
+			// Render the artist name
+			var artistNameHeading = document.createElement('h3');
+			artistNameHeading.textContent = s.artist;
+			artistInfoDiv.appendChild(artistNameHeading);
+
+			// Render the bio
+			var bioParagraph = document.createElement('p');
+			bioParagraph.textContent = s.lyrics;
+			artistInfoDiv.appendChild(bioParagraph);
+		}
+	}
 	container.appendChild(artistInfoDiv);
-  hideLoader();
+	hideLoader();
 }
 // renderArtist('kiss')
 
@@ -302,7 +299,7 @@ function logout() {
 	localStorage.removeItem('user');
 }
 function OpenSearch() {
-	document.querySelector('.spotify-playlists').style.display="none";
+	document.querySelector('.spotify-playlists').style.display = 'none';
 	let searchDiv = document.querySelector('.search-div'); // Replace 'container' with the ID of your container element
 	// Clear the container
 	console.log(searchDiv);
@@ -390,4 +387,27 @@ function Search() {
 			}
 		);
 	}
+}
+function startGame() {
+	const numOfQuestions = 5;
+	let score = 0;
+	let quizeArr = [];
+	let arrGame = JSON.parse(localStorage.getItem('songs'));
+	for (let i = 0; i < numOfQuestions; i++) {
+		let rnd = Math.floor(Math.random() * arrGame.length);
+		let opt = [];
+		let question = {
+			q: arrGame[rnd].artist,
+			a: arrGame[rnd].song,
+			options: [],
+		};
+		for (let j = 0; j < 4; j++) {
+			let rnd = Math.floor(Math.random() * arrGame.length);
+			opt.push(arrGame[rnd].song);
+			arrGame.splice(rnd, 1);
+		}
+		question.options=opt;
+		quizeArr.push(question);
+	}
+	console.log(quizeArr);
 }
