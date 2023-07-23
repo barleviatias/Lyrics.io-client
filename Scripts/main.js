@@ -391,23 +391,48 @@ function Search() {
 function startGame() {
 	const numOfQuestions = 5;
 	let score = 0;
+	let rnd;
 	let quizeArr = [];
 	let arrGame = JSON.parse(localStorage.getItem('songs'));
 	for (let i = 0; i < numOfQuestions; i++) {
-		let rnd = Math.floor(Math.random() * arrGame.length);
+		rnd = Math.floor(Math.random() * arrGame.length);
 		let opt = [];
 		let question = {
-			q: arrGame[rnd].artist,
+			q: "what song belong to "+arrGame[rnd].artist,
 			a: arrGame[rnd].song,
 			options: [],
 		};
 		for (let j = 0; j < 4; j++) {
-			let rnd = Math.floor(Math.random() * arrGame.length);
 			opt.push(arrGame[rnd].song);
 			arrGame.splice(rnd, 1);
+			rnd = Math.floor(Math.random() * arrGame.length);
 		}
-		question.options=opt;
+		question.options=shuffle(opt);
 		quizeArr.push(question);
 	}
-	console.log(quizeArr);
+	console.log(quizeArr.pop());
 }
+
+function renderQuestion(q){
+
+}
+function checkAns(){
+	
+}
+function shuffle(array) {
+	let currentIndex = array.length,  randomIndex;
+  
+	// While there remain elements to shuffle.
+	while (currentIndex != 0) {
+  
+	  // Pick a remaining element.
+	  randomIndex = Math.floor(Math.random() * currentIndex);
+	  currentIndex--;
+  
+	  // And swap it with the current element.
+	  [array[currentIndex], array[randomIndex]] = [
+		array[randomIndex], array[currentIndex]];
+	}
+  
+	return array;
+  }
