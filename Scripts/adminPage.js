@@ -2,8 +2,8 @@ let api = "https://localhost:7245/";
 let users = [];
 let favorites = [];
 let counterFavorite = [];
-let flag = 1;
-let currUser = JSON.parse(localStorage.getItem('user'));
+let flag = 0;
+let currUser = JSON.parse(localStorage.getItem("user"));
 
 function showChartDiv() {
   document.querySelector(".manage-users").style.display = "none";
@@ -13,9 +13,9 @@ function showChartDiv() {
 }
 
 function init() {
-  if (currUser.email.split(' ')[0] != 'admin@gmail.com') {
-		window.location.href = '/pages/welcome.html';
-	} 
+  if (currUser.email.split(" ")[0] != "admin@gmail.com") {
+    window.location.href = "/pages/welcome.html";
+  }
   console.log("admin now");
   document.querySelector(".manage-users").style.display = "none";
   document.querySelector(".manage-liked-songs").style.display = "none";
@@ -108,16 +108,61 @@ function getFavorite() {
 
 function renderUsers(data) {
   console.log("try render");
-
+  let i = 0;
   $("#example").DataTable({
+    paging: false,
     data: data,
+
     columns: [
       { data: "firstName" },
       { data: "lastName" },
       { data: "email" },
-      { data: "signDate"},
+      { data: "signDate" },
+      {
+        data: "ID",
+        render: function (data, type, row) {
+          let d = $("#example").DataTable().rows().data();
+          return `<button id ='${i++}' class='delete' onclick="deleteUser($('#example').DataTable().rows( this.id ).data())" >delete</button>`;
+        },
+      },
     ],
   });
+}
+
+function deleteUser(el) {
+  let index = 0;
+  let deleteAPI = api + "api/Users/DeleteUser/email/" + el[0]["email"];
+  $('#example').DataTable().rows( el.id ).data();
+  for(let j in $('#example').DataTable().rows( ).data()){
+    if($('#example').DataTable().rows( ).data()[j]['email'] == el[0]["email"]){
+      index = j;
+      
+    }
+  }
+ 
+  ajaxCall(
+    "DELETE",
+    deleteAPI,
+    null,
+    (data) => {
+      console.log(users);
+      for (let u in users) {
+        if (users[u]["email"] == el[0]["email"]) {
+          delete users[u];
+        }
+      }
+
+      var table = $('#example').DataTable();
+ 
+      var rows = table
+          .rows( index )
+          .remove()
+          .draw();
+    },
+    (err) => {
+      alert(err);
+    }
+  );
 }
 function showManageUsers() {
   document.getElementById("chart_div").style.display = "none";
@@ -222,34 +267,34 @@ function artistStat() {
       for (let f in favorites) {
         for (let s in songsList) {
           if (songsList[s].id == favorites[f][1]) {
-            if(Object.keys(final).includes(songsList[s].artist) == false){
-              final[songsList[s].artist]=0;
+            if (Object.keys(final).includes(songsList[s].artist) == false) {
+              final[songsList[s].artist] = 0;
             }
-            final[songsList[s].artist]+=1;
+            final[songsList[s].artist] += 1;
           }
         }
       }
-      for(let k in final){
-        favoriteArtists.push([k , final[k]]);
+      for (let k in final) {
+        favoriteArtists.push([k, final[k]]);
       }
       var data = new google.visualization.DataTable();
       data.addColumn("string", "Topping");
       data.addColumn("number", "Slices");
       data.addRows(favoriteArtists);
-    
+
       // Set chart options
       var options = {
         title: "Artists Statistics",
         width: 1000,
         height: 500,
-        is3D:"true",
+        is3D: "true",
       };
-    
+
       // Instantiate and draw our chart, passing in some options.
       var chart = new google.visualization.PieChart(
         document.getElementById("chart_div1")
       );
-    
+
       chart.draw(data, options);
       const tmp = document.getElementById("chart_div1");
       const child = tmp.firstChild;
@@ -261,4 +306,3 @@ function artistStat() {
     }
   );
 }
-

@@ -8,6 +8,7 @@ localStorage.setItem("isDark",true);
 // bug when signup user obj dont save the id 
 
 function OpenSignUp() {
+  document.querySelector(".errorH3").style.display="none";
   let l = document.querySelector(".SignIn");
   let p = document.querySelector(".SignUp");
   if (l.style.display != "none") {
@@ -56,6 +57,7 @@ function SignIn(event) {
     ConnectAPI,
     JSON.stringify(password),
     (data) => {
+      document.querySelector(".errorH3").style.display="none";
       if (email == "admin@gmail.com" && password == "123") {
         document.SignInForm.email.value = "";
         document.SignInForm.password.value = "";
@@ -70,7 +72,7 @@ function SignIn(event) {
       window.location.href = "/pages/main.html";
     },
     (err) => {
-      alert("Email or Password incorrect");
+      document.querySelector(".errorH3").style.display="block";
       document.SignInForm.email.value = "";
       document.SignInForm.password.value = "";
     }
