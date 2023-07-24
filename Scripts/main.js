@@ -13,6 +13,7 @@ let api = 'https://localhost:7245/';
 let currUser = JSON.parse(localStorage.getItem('user'));
 function init() {
 	checkDark();
+	isMobileMode();
 	let elFull = document.getElementById('full');
 	elFull.addEventListener('click', () => {
 		closeMenu();
@@ -803,3 +804,26 @@ function toggleDarkMode() {
           theme.href = "../Styles/main-light.css";
         }
   }
+
+  // Function to check if the device is in mobile mode
+function isMobileMode() {
+	// Define the media query for mobile devices
+	const mobileQuery = window.matchMedia("(max-width: 767px)");
+  
+	// Check if the media query matches (i.e., the device is in mobile mode)
+	if (mobileQuery.matches) {
+	  return true;
+	} else {
+	  return false;
+	}
+  }
+  
+  // Usage example
+  if (isMobileMode()) {
+	console.log("You are in mobile mode.");
+  } else {
+	// elMenu = document.querySelector('.sidebar');
+	// elMenu.style.display = 'block';
+	console.log("You are not in mobile mode.");
+  }
+  
