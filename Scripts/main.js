@@ -24,7 +24,6 @@ function init() {
 	if (currUser == null) {
 		window.location.href = '/pages/welcome.html';
 	} else {
-		console.log(currUser);
 		elHellolbl.innerText = 'Hello,' + currUser.firstName;
 	}
 	getSongs();
@@ -51,10 +50,8 @@ async function getSongs() {
 async function getLikedSongs() {
 	// closeMenu();
 	await getFavSongs();
-	console.log(likedSongsId);
 	let lstLikedSongs = [];
 	songs = JSON.parse(localStorage.getItem('songs'));
-	console.log(songs);
 	for (s of songs) {
 		if (likedSongsId.includes(s.id)) {
 			console.log('match');
@@ -62,14 +59,12 @@ async function getLikedSongs() {
 		}
 	}
 	renderSongs(lstLikedSongs);
-	console.log(lstLikedSongs);
 }
 function renderSongs(data, showSearch = 0) {
 	document.querySelector('.spotify-playlists').style.display = 'block';
 	if (showSearch == 0) {
 		document.querySelector('.search-div').innerHTML = '';
 	}
-	console.log(data);
 	getFavSongs();
 	hideLoader();
 	strHTML = ``;
@@ -166,17 +161,14 @@ function renderArtist(name) {
 		.then((response) => response.json())
 		.then((data) => {
 			hideLoader();
-			console.log(data.artist);
 			const container = document.querySelector('.spotify-playlists');
 			container.innerHTML = '';
 			artistData = data.artist;
-			console.log(artistData.name);
 			if (artistData.mbid) {
 				const url =
 					'https://musicbrainz.org/ws/2/artist/' +
 					artistData.mbid +
 					'?inc=url-rels&fmt=json';
-				console.log(url);
 				fetch(url)
 					.then((res) => res.json())
 					.then((out) => {
@@ -200,7 +192,6 @@ function renderArtist(name) {
 								}
 							}
 						}
-						console.log(image_url);
 						var artistImg = document.createElement('img');
 						artistImg.src = image_url;
 						artistImg.className = 'artist-img';
@@ -311,7 +302,6 @@ function getFavSongs() {
 			api3,
 			null,
 			(data) => {
-				console.log(data);
 				likedSongsId = data;
 				resolve(data);
 			},
@@ -332,7 +322,6 @@ function OpenSearch() {
 	document.querySelector('.videos').style.display = 'none';
 	let searchDiv = document.querySelector('.search-div'); // Replace 'container' with the ID of your container element
 	// Clear the container
-	console.log(searchDiv);
 	searchDiv.innerHTML = '';
 	const searchContainer = document.createElement('div');
 	const searchInput = document.createElement('input');
@@ -379,7 +368,6 @@ function Search() {
 			nameApi,
 			null,
 			(data) => {
-				console.log(data);
 				renderSongs(data, 1);
 			},
 			(err) => {
@@ -394,7 +382,6 @@ function Search() {
 			artistApi,
 			null,
 			(data) => {
-				console.log(data);
 				renderSongs(data, 1);
 			},
 			(err) => {
@@ -409,7 +396,6 @@ function Search() {
 			lyricsApi,
 			null,
 			(data) => {
-				console.log(data);
 				renderSongs(data, 1);
 			},
 			(err) => {
@@ -448,10 +434,8 @@ function searchSong(songName, artist) {
 	)
 		.then((response) => response.json())
 		.then((data) => {
-			console.log(data);
 			if (data.items.length > 0) {
 				const videoId = data.items[0].id.videoId;
-				console.log(videoId);
 				const link = `https://www.youtube.com/watch?v=${videoId}`;
 				console.log(link);
 				playVideo(videoId); // You can do whatever you want with the link here

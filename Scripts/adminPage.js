@@ -32,7 +32,6 @@ function getUsers() {
     getUsersAPI,
     null,
     (data) => {
-      console.log(data);
       users = data;
       renderUsers(data);
     },
@@ -49,7 +48,6 @@ function getUsers() {
     getUsersAPI,
     null,
     (data) => {
-      console.log(data);
       users = data;
       renderUsers(data);
     },
@@ -67,7 +65,7 @@ function getFavoriteByID() {
     api3,
     null,
     (data) => {
-      console.log(data);
+        console.log("Get Favortite");
     },
     (err) => {
       arr(err);
@@ -98,7 +96,6 @@ function getFavorite() {
           }
         }
       }
-      console.log(counterFavorite);
     },
     (err) => {
       alert(err);
@@ -144,7 +141,6 @@ function deleteUser(el) {
     deleteAPI,
     null,
     (data) => {
-      console.log(users);
       for (let u in users) {
         if (users[u]["email"] == el[0]["email"]) {
           delete users[u];
@@ -182,7 +178,6 @@ google.charts.setOnLoadCallback(drawChart);
 async function drawChart() {
   // Create the data table.
 
-  console.log(counterFavorite);
   var data = new google.visualization.DataTable();
   data.addColumn("string", "Topping");
   data.addColumn("number", "Slices");
@@ -238,7 +233,6 @@ function RenderLikedSongs(data) {
     whos["Likes"] = likesSongs;
     finalData.push(whos);
   }
-  console.log(finalData);
 
   $("#likesTB").DataTable({
     data: finalData,
