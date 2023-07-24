@@ -1,5 +1,5 @@
 var flag = 1;
-let api = "https://localhost:7245/";
+let api = "https://proj.ruppin.ac.il/cgroup18/test2/tar1/";
 const elcheckbox = document.querySelector("input[type='checkbox']");
 console.log(elcheckbox);
 console.log("loading");

@@ -9,7 +9,7 @@ let count = 0;
 let quizeArr = [];
 let flag=0;
 let bar;
-let api = 'https://localhost:7245/';
+let api = 'https://proj.ruppin.ac.il/cgroup18/test2/tar1/';
 let currUser = JSON.parse(localStorage.getItem('user'));
 function init() {
 	checkDark();

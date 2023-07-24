@@ -1,4 +1,4 @@
-let api = "https://localhost:7245/";
+let api = "https://proj.ruppin.ac.il/cgroup18/test2/tar1/";
 let users = [];
 let favorites = [];
 let counterFavorite = [];
@@ -21,8 +21,8 @@ function init() {
   document.querySelector(".manage-liked-songs").style.display = "none";
 
   getUsers();
-  drawChart();
   artistStat();
+  drawChart();
 }
 
 function getUsers() {
@@ -183,8 +183,9 @@ google.charts.setOnLoadCallback(drawChart);
 // Callback that creates and populates a data table,
 // instantiates the pie chart, passes in the data and
 // draws it.
-function drawChart() {
+async function drawChart() {
   // Create the data table.
+  console.log(counterFavorite);
   var data = new google.visualization.DataTable();
   data.addColumn("string", "Topping");
   data.addColumn("number", "Slices");
@@ -206,7 +207,7 @@ function drawChart() {
   const tmp = document.getElementById("chart_div");
   const child = tmp.firstChild;
   child.style.display = "flex";
-  child.style.justifyContent = "center";
+  child.style.justifyContent = "center";
 }
 function ShowLiked() {
   document.querySelector(".manage-users").style.display = "none";
