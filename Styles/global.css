@@ -57,9 +57,10 @@ input {
     background: #00bd68;
 }
 .toggle-div{
-    padding: 10px 10px;
-    position: absolute;
-    right: 0;
+  padding: 10px 10px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
 }
 .checkbox {
     opacity: 0;
@@ -98,14 +99,6 @@ input {
   .checkbox:checked + .checkbox-label .ball {
     transform: translateX(24px);
   }
-  
-  
-  
-  
-  
-  
-  
-  
   
   /*  Support me if you like it */
   .support {

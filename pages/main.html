@@ -12,18 +12,18 @@
   <script src="../Scripts/main.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../Styles/global.css">
-  <link rel="stylesheet" href="../Styles/main.css">
+  <link rel="stylesheet" href="../Styles/main.css" id="theme-link">
   <title>Document</title>
 </head>
 
-<body   onload="init()">
+<body onload="init()">
   <div id="loader"></div>
   <div id="full"></div>
 
   <div class="sidebar">
     <div class="logo">
       <a href="#">
-        <img src="../img/2.png" alt="Logo" />
+        <img src="../img/2.png" alt="Logo" class="logoImg" />
       </a>
     </div>
     <div class="navigation">
@@ -81,13 +81,21 @@
     </div>
     <div class="search-div"></div>
     <div class="spotify-playlists">
-        
+
     </div>
     <div class="videos" style="text-align: center;"></div>
     <div class="quize-div">
       <h4 class="score"></h4>
       <div class="question">
       </div>
+    </div>
+    <div class="toggle-div">
+      <input onchange="toggleDarkMode()" type="checkbox" class="checkbox" id="checkbox" >
+      <label for="checkbox" class="checkbox-label">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+        <span class="ball"></span>
+      </label>
     </div>
 
     <script src="https://kit.fontawesome.com/23cecef777.js" crossorigin="anonymous"></script>

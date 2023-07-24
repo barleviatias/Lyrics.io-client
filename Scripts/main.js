@@ -7,10 +7,12 @@ let rnd;
 let hints = 2;
 let count = 0;
 let quizeArr = [];
+let flag=0;
 let bar;
 let api = 'https://localhost:7245/';
 let currUser = JSON.parse(localStorage.getItem('user'));
 function init() {
+	checkDark();
 	let elFull = document.getElementById('full');
 	elFull.addEventListener('click', () => {
 		closeMenu();
@@ -782,3 +784,37 @@ function closeMenu() {
 	elFull = document.getElementById('full');
 	elFull.style.display = 'none';
 }
+
+function checkDark(){
+	let isDark=localStorage.getItem('isDark');
+	var img = document.querySelector(".logoImg");
+	const theme = document.querySelector("#theme-link");
+	let chk= document.querySelector('.checkbox-label');
+	console.log(isDark);
+	if(isDark=='false'){
+		console.log("starting white");
+		img.src = "../img/1.png";
+	  	theme.href = "../Styles/main-light.css";
+	}
+	else{
+		chk.checked=false;
+	}
+	
+}
+function toggleDarkMode() {
+
+	var img = document.querySelector(".logoImg");
+	const theme = document.querySelector("#theme-link");
+        // Swap out the URL for the different stylesheets
+        if (theme.getAttribute("href") == "../Styles/main-light.css") {
+			console.log("ligth");
+			localStorage.setItem("isDark",true);
+			img.src = "../img/2.png";
+			theme.href = "../Styles/main.css";
+        } else {
+			localStorage.setItem("isDark",false);
+			console.log("dark");
+			img.src = "../img/1.png";
+          theme.href = "../Styles/main-light.css";
+        }
+  }

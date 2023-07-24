@@ -3,7 +3,7 @@ let api = "https://localhost:7245/";
 const elcheckbox = document.querySelector("input[type='checkbox']");
 console.log(elcheckbox);
 console.log("loading");
-
+localStorage.setItem("isDark",true);
 
 // bug when signup user obj dont save the id 
 
@@ -104,10 +104,12 @@ function toggleDarkMode() {
   if (flag) {
     var img = document.querySelector(".logo");
     img.src = "../img/1.png";
+    localStorage.setItem("isDark",false);
     flag = 0;
   } else {
     var img = document.querySelector(".logo");
     img.src = "../img/2.png";
+    localStorage.setItem("isDark",true);
     flag = 1;
   }
   var element = document.body;

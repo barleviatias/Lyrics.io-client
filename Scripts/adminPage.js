@@ -2,7 +2,7 @@ let api = "https://localhost:7245/";
 let users = [];
 let favorites = [];
 let counterFavorite = [];
-let flag = 0;
+let flag = 1;
 let currUser = JSON.parse(localStorage.getItem('user'));
 
 function showChartDiv() {

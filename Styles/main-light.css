@@ -1,0 +1,496 @@
+* {
+    padding: 0;
+    margin: 0;
+  }
+  
+  body {
+    background-color: whitesmoke;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  #centers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+  }
+  
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 196px;
+    background-color: #e7e7e7;
+    padding: 24px;
+  }
+  
+  .sidebar .logo img {
+    width: 130px;
+  }
+  
+  .sidebar .navigation ul {
+    list-style: none;
+    margin-top: 20px;
+  }
+  
+  .sidebar .navigation ul li {
+    padding: 10px 0px;
+  }
+  
+  .sidebar .navigation ul li a {
+    color: #121212;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 13px;
+  }
+  
+  .sidebar .navigation ul li a:hover,
+  .sidebar .navigation ul li a:active,
+  .sidebar .navigation ul li a:focus {
+    color: #00BD68;
+  }
+  
+  .sidebar .navigation ul li a:hover .fa,
+  .sidebar .navigation ul li a:active .fa,
+  .sidebar .navigation ul li a:focus .fa {
+    color: #00BD68;
+  }
+  
+  .sidebar .navigation ul li .fa {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  
+  .sidebar .navigation ul li a:hover .fa:hover,
+  .sidebar .navigation ul li a:hover .fa:active,
+  .sidebar .navigation ul li a:hover .fa:focus {
+    color: #ffffff;
+  }
+  
+  .sidebar .policies {
+    position: absolute;
+    bottom: 100px;
+  }
+  
+  .sidebar .policies ul {
+    list-style: none;
+  }
+  
+  .sidebar .policies ul li {
+    padding-bottom: 5px;
+  }
+  
+  .sidebar .policies ul li a {
+    color: #b3b3b3;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 10px;
+  }
+  
+  .sidebar .policies ul li a:hover,
+  .sidebar .policies ul li a:active,
+  .sidebar .policies ul li a:focus {
+    text-decoration: underline;
+  }
+  
+  .main-container {
+    margin-left: 245px;
+    margin-bottom: 100px;
+  }
+  
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #e7e7e7;
+    padding: 14px 30px;
+  }
+  
+  .topbar .prev-next-buttons button {
+    color: #7a7a7a;
+    cursor: not-allowed;
+    width: 34px;
+    height: 34px;
+    border-radius: 100%;
+    font-size: 18px;
+    border: 0px;
+    background-color: #090909;
+    margin-right: 10px;
+  }
+  
+  .topbar .navbar {
+    display: flex;
+    align-items: center;
+  }
+  
+  .topbar .navbar ul {
+    list-style: none;
+  }
+  
+  .topbar .navbar ul li {
+    display: inline-block;
+    margin: 0px 8px;
+    width: 70px;
+  }
+  
+  .topbar .navbar ul li a {
+    color: #b3b3b3;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  
+  .topbar .navbar ul li a:hover,
+  .topbar .navbar ul li a:active,
+  .topbar .navbar ul li a:focus {
+    color: #ffffff;
+    font-size: 15px;
+  }
+  
+  .topbar .navbar ul li.divider {
+    color: #ffffff;
+    font-size: 26px;
+    margin: 0px 20px;
+    width: auto;
+  }
+  
+  .topbar .navbar button {
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 14px 30px;
+    border: 0px;
+    border-radius: 40px;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+  
+  .topbar .navbar button:hover,
+  .topbar .navbar button:active,
+  .topbar .navbar button:focus {
+    background-color: #f2f2f2;
+  }
+  
+  .spotify-playlists {
+    padding: 20px 40px;
+  }
+  
+  .spotify-playlists h2 {
+    color: #000000;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  .spotify-playlists .list {
+    display: flex;
+    gap: 20px;
+    overflow: hidden;
+  }
+  
+  .spotify-playlists .list .item {
+    min-width: 140px;
+    width: 160px;
+    padding: 15px;
+    background-color: #181818;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all ease 0.4s;
+  }
+  
+  .spotify-playlists .list .item:hover {
+    background-color: #252525;
+  }
+  
+  .spotify-playlists .list .item img {
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  
+  .spotify-playlists .list .item .play {
+    position: relative;
+  }
+  
+  .spotify-playlists .list .item .play .fa {
+    position: absolute;
+    right: 10px;
+    top: -60px;
+    padding: 18px;
+    background-color: #1db954;
+    border-radius: 100%;
+    opacity: 0;
+    transition: all ease 0.4s;
+  }
+  
+  .spotify-playlists .list .item:hover .play .fa {
+    opacity: 1;
+    transform: translateY(-20px);
+  }
+  
+  .spotify-playlists .list .item h4 {
+    color: #ffffff;
+    font-size: 14px;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .spotify-playlists .list .item p {
+    color: #989898;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 600;
+  }
+  
+  .spotify-playlists hr {
+    margin: 70px 0px 0px;
+    border-color: #636363;
+  }
+  
+  .preview {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to right, #ae2896, #509bf5);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .preview h6 {
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .preview p {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .preview button {
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 14px 30px;
+    border: 0px;
+    border-radius: 40px;
+    cursor: pointer;
+  }
+  
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #555;
+  }
+  
+  .spotify-playlists {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .spotify-playlists .item button {
+    background-image: none;
+    font-size: 16px;
+  }
+  
+  .item {
+    color: #121212;
+    display: flex;
+    width: 100%;
+    /* Adjust the width according to your preference */
+    margin-bottom: 20px;
+    /* Adjust the margin-bottom as desired */
+    /* Add any other styling you want for each item */
+  }
+  
+  .item p {
+    cursor: pointer;
+    font-weight: 300;
+    width: 100%;
+  }
+  
+  .item button {
+    background-color: #121212;
+    width: 20%;
+  }
+  
+  .artist-info {
+    display: flex;
+    color: #121212;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  }
+  .artist-info p{
+    text-align: center;
+    width: 40%;
+  }
+  .artist-info h2{
+    text-align: center;
+    color: #1db954;
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+  .artist-info h3{
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .spotify-playlists h2 {
+    /* color: #ffffff; */
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+  .hello {
+    color: #121212;
+  }
+  .search-div{
+    display: flex;
+    justify-content: center;
+  }
+  #search-container {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  #search-container button {
+    width: 20%;
+    border-radius: 0px 30px 30px 0px;
+  }
+  
+  #search-input {
+    border:0;
+    width: 50%;
+    border-radius: 30px 0px 0px 30px;
+  }
+  
+  
+  #search-type {
+    width: 30%;
+    display: inline-block;
+    cursor: pointer;
+    outline: 0;
+    border: 0px hidden #000000;
+    /* appearance: none; */
+    /* -webkit-appearance: none; */
+    padding: 10px 5px;
+    background-color: aliceblue;
+    text-align: center;
+  }
+  .artist-img{
+    width: 150px; /* Adjust the size of the circular container as needed */
+    height: 150px; /* Ensure width and height are equal to create a perfect circle */
+    border-radius: 50%; /* Makes the container circular */
+    overflow: hidden; /* Hides any overflow from the circular shape */
+    background-size: cover; /* Ensures the image covers the entire circle */
+    background-position: center; 
+    margin:auto;
+  }
+  .question{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+  .question h2{
+    color: #121212;;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .question button{
+    color: #121212;
+    /* background-color: whitesmoke; */
+    text-align: center;
+    background-image: none;
+    border-color:#1db954 ;
+    border: 2px solid #181818;
+    margin-bottom: 20px;
+    width: 50%;
+  }
+  .question button:hover{
+    /* color:whitesmoke; */
+    text-align: center;
+    background-image: none;
+    border: 2px solid #1db954;
+  
+    margin-bottom: 20px;
+  }
+  
+  .wrong{
+    background-color: red;
+  }
+  .correct{
+    background-color: #00BD68;
+  }
+  .lbl-message{
+    color: whitesmoke;
+  }
+  .score{
+    color: whitesmoke;
+    text-align: center;
+  }
+  .star{
+    color: #00BD68;
+    font-size: 40px;
+  }
+  .star-f{
+    /* color: #00BD68; */
+    font-size: 40px;
+  }
+  .timer-div{
+  display: flex;
+      height: 30px;
+      width: 30px;
+      border: 2px solid white;
+      border-radius: 50%;
+      background-color: #00BD68;
+      align-items: center;
+      justify-content: center;
+  }
+  .timer{
+    /* padding: 20px; */
+    font-size: 14px;
+    color: white;
+  }
+  .menu{
+    display: none;
+    color:whitesmoke;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .sidebar {
+      display: none;
+      z-index: 999;
+    }
+    .menu{
+      display: block;
+      color:whitesmoke;
+    }
+    .main-container {
+      margin-left: 0;
+      margin-bottom: 100px;
+  }
+  }
