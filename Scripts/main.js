@@ -674,7 +674,6 @@ function renderQuestion(q) {
 		startTimer();
 	} else {
 		quizeEnd();
-		clearInterval(timerInterval);
 	}
 }
 
@@ -697,6 +696,7 @@ async function checkAns(ans, q) {
   renderQuestion(quizeArr.pop());
 }
 function quizeEnd() {
+	clearInterval(timerInterval);
 	console.log(arrAns);
 	elQuestion = document.querySelector('.question');
 	elQuestion.innerHTML = '';
@@ -748,13 +748,18 @@ function startTimer() {
   timerInterval = setInterval(function () {
     timeLeft -= 1;
     updateTimerDisplay();
-
 		// Check if the timer has reached 0
 		if (timeLeft <= 0) {
 			renderQuestion(quizeArr.pop());
-			clearInterval(timerInterval); // Clear the interval when time is up
 			arrAns.push(0);
+			clearInterval(timerInterval); // Clear the interval when time is up
+			
 			// handleTimeUp();
+		}
+		if(timeLeft <= 0&& quizeArr.length <= 0){
+			console.log("enddd");
+			quizeEnd();
+			// clearInterval(timerInterval);
 		}
 	}, 1000);
 }
