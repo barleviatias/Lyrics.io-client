@@ -3,8 +3,10 @@ let api = "https://localhost:7245/";
 const elcheckbox = document.querySelector("input[type='checkbox']");
 console.log(elcheckbox);
 console.log("loading");
-localStorage.setItem("isDark",true);
-
+if(localStorage.getItem("isDark")==null){
+  localStorage.setItem("isDark",true);
+}
+checkDark();
 // bug when signup user obj dont save the id 
 
 function OpenSignUp() {
@@ -98,19 +100,36 @@ function getDateNow() {
     "Z";
   return date;
 }
-
+function checkDark(){
+  var bodyElement = document.body;
+	let isDark=localStorage.getItem('isDark');
+	let chk= document.querySelector('.checkbox');
+  var img = document.querySelector(".logo");
+	if(isDark=='false'){
+    console.log(isDark);
+    console.log("starting white");
+    bodyElement.classList.remove('dark-mode');
+    chk.checked=true;
+    img.src = "../img/1.png";
+	}
+	else{
+    img.src = "../img/2.png";
+    chk.checked=false;
+	}
+	
+}
 function toggleDarkMode() {
-  console.log(flag);
-  if (flag) {
+  let isDark=JSON.parse(localStorage.getItem('isDark'));
+  console.log(isDark);
+  if (isDark) {
+    console.log("bar");
     var img = document.querySelector(".logo");
     img.src = "../img/1.png";
     localStorage.setItem("isDark",false);
-    flag = 0;
   } else {
     var img = document.querySelector(".logo");
     img.src = "../img/2.png";
     localStorage.setItem("isDark",true);
-    flag = 1;
   }
   var element = document.body;
   element.classList.toggle("dark-mode");

@@ -495,7 +495,6 @@ function Search() {
       nameApi,
       null,
       (data) => {
-        console.log(data);
         renderSongs(data, 1);
       },
       (err) => {
@@ -510,7 +509,6 @@ function Search() {
       artistApi,
       null,
       (data) => {
-        console.log(data);
         renderSongs(data, 1);
       },
       (err) => {
@@ -525,7 +523,6 @@ function Search() {
       lyricsApi,
       null,
       (data) => {
-        console.log(data);
         renderSongs(data, 1);
       },
       (err) => {
@@ -601,10 +598,8 @@ function renderQuestion(q) {
     elScore.innerText = "score:" + score;
     startTimer();
   } else {
-    console.log("game ended");
-    console.log(count);
+
     quizeEnd();
-    console.log("your score is " + score);
   }
 }
 
@@ -629,7 +624,6 @@ function quizeEnd() {
   elQuestion = document.querySelector(".question");
   elQuestion.innerHTML = "";
   strHTML = `Your Result is:`;
-  console.log(count);
   var elDiv = document.createElement("div");
   elDiv.className = "result";
   for (let i = 0; i < count; i++) {
@@ -679,7 +673,6 @@ function startTimer() {
     if (timeLeft <= 0) {
       clearInterval(timerInterval); // Clear the interval when time is up
 
-      console.log("Time's up!");
       renderQuestion(quizeArr.pop());
       // handleTimeUp();
     }
@@ -705,7 +698,6 @@ function getHint(q) {
     }
   }
   hintQ = shuffle(hintQ);
-  console.log(hintQ);
   var timerDiv = document.createElement("div");
   timerDiv.className = "timer-div";
   var timerlbl = document.createElement("p");
@@ -716,7 +708,6 @@ function getHint(q) {
   question.innerText = q.q;
   elQuestion.appendChild(question);
   for (let j = 0; j < hintQ.length; j++) {
-    console.log("render: " + j);
     const btnOp = document.createElement("button");
     btnOp.innerText = hintQ[j];
     btnOp.className = "option";
@@ -737,7 +728,6 @@ function InsertScore() {
     InsertScoreAPI,
     null,
     (data) => {
-      console.log("Insert Score");
     },
     (err) => {
       alert(err);
@@ -754,7 +744,6 @@ function GetScore() {
     (data) => {
       for(let d in data){
         if(data[d][0]==curUser.id){
-          console.log(data[d][1]);
           return;
         }
       }
@@ -765,7 +754,6 @@ function GetScore() {
   );
 }
 function openMenu() {
-	console.log('click open');
 	elMenu = document.querySelector('.sidebar');
 	elMenu.style.display = 'block';
 	elFull = document.getElementById('full');
@@ -778,7 +766,6 @@ function openMenu() {
 	// });
 }
 function closeMenu() {
-	console.log('click close');
 	elMenu = document.querySelector('.sidebar');
 	elMenu.style.display = 'none';
 	elFull = document.getElementById('full');
@@ -789,12 +776,11 @@ function checkDark(){
 	let isDark=localStorage.getItem('isDark');
 	var img = document.querySelector(".logoImg");
 	const theme = document.querySelector("#theme-link");
-	let chk= document.querySelector('.checkbox-label');
-	console.log(isDark);
+	let chk= document.querySelector('.checkbox');
 	if(isDark=='false'){
-		console.log("starting white");
 		img.src = "../img/1.png";
 	  	theme.href = "../Styles/main-light.css";
+		chk.checked=true;
 	}
 	else{
 		chk.checked=false;
@@ -807,7 +793,6 @@ function toggleDarkMode() {
 	const theme = document.querySelector("#theme-link");
         // Swap out the URL for the different stylesheets
         if (theme.getAttribute("href") == "../Styles/main-light.css") {
-			console.log("ligth");
 			localStorage.setItem("isDark",true);
 			img.src = "../img/2.png";
 			theme.href = "../Styles/main.css";
