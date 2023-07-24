@@ -272,7 +272,7 @@ function renderSong(songId) {
       artistInfoDiv.classList.add("artist-info");
 
       var bioTitle = document.createElement("h2");
-      searchSong(s.song);
+      searchSong(s.song,s.artist);
       bioTitle.textContent = s.song;
       artistInfoDiv.appendChild(bioTitle);
       // Render the artist name
@@ -437,21 +437,23 @@ function Show() {
   });
 }
 
-function searchSong(songName) {
+function searchSong(songName,artist) {
   const apiKey = "AIzaSyDp9sFEyhoz0XNo1iKtnGPiipf7TdRhH7g";
-
+console.log( artist.trim()+"-"+songName);
   fetch(
     `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
-      songName
+		artist.trim()+"-"+songName
     )}&type=video&key=${apiKey}`
   )
     .then((response) => response.json())
     .then((data) => {
+		console.log(data);
       if (data.items.length > 0) {
         const videoId = data.items[0].id.videoId;
+		console.log(videoId);
         const link = `https://www.youtube.com/watch?v=${videoId}`;
         console.log(link);
-        playVideo(link); // You can do whatever you want with the link here
+        playVideo(videoId); // You can do whatever you want with the link here
       } else {
         console.log("No videos found for the given song name.");
       }
@@ -460,9 +462,7 @@ function searchSong(songName) {
       console.error("Error fetching data:", error);
     });
 }
-function playVideo(youtubeUrl) {
-  const videoId = extractVideoId(youtubeUrl);
-
+function playVideo(videoId) {
   if (videoId) {
     const playerDiv = document.querySelector(".videos");
     playerDiv.style.display = "block";
