@@ -678,47 +678,46 @@ function handleDifficultyChange() {
   }
 }
 function renderQuestion(q) {
-  // clearInterval(timerInterval);
-  if (quizeArr.length > 0) {
-    elScore = document.querySelector(".score");
-    elQuestion = document.querySelector(".question");
-    elQuestion.innerHTML = "";
-    var timerDiv = document.createElement("div");
-    timerDiv.className = "timer-div";
-    var timerlbl = document.createElement("p");
-    timerlbl.className = "timer";
-    timerDiv.appendChild(timerlbl);
-    elQuestion.appendChild(timerDiv);
-    var question = document.createElement("h2");
-    question.innerText = q.q;
-    elQuestion.appendChild(question);
-    for (let i = 0; i < q.options.length; i++) {
-      const btnOpt = document.createElement("button");
-      btnOpt.innerText = q.options[i];
-      btnOpt.className = "option";
-      btnOpt.id = q.options[i];
-      btnOpt.addEventListener("click", () => {
-        clearInterval(timerInterval);
-        checkAns(btnOpt.id, q);
-      });
-      elQuestion.appendChild(btnOpt);
-    }
-    if (hints > 0) {
-      var hintBtn = document.createElement("button");
-      hintBtn.className = "btn-hint";
-      hintBtn.innerText = "Get Hint";
-      // hintBtn.onclick=getHint();
-      hintBtn.addEventListener("click", () => {
-        getHint(q);
-      });
-      elQuestion.appendChild(hintBtn);
-    }
-    elScore.innerText = "score: " + score;
-    startTimer();
-  } else {
-    quizeEnd();
-    clearInterval(timerInterval);
-  }
+	// clearInterval(timerInterval);
+	if (quizeArr.length > 0) {
+		elScore = document.querySelector('.score');
+		elQuestion = document.querySelector('.question');
+		elQuestion.innerHTML = '';
+		var timerDiv = document.createElement('div');
+		timerDiv.className = 'timer-div';
+		var timerlbl = document.createElement('p');
+		timerlbl.className = 'timer';
+		timerDiv.appendChild(timerlbl);
+		elQuestion.appendChild(timerDiv);
+		var question = document.createElement('h2');
+		question.innerText = q.q;
+		elQuestion.appendChild(question);
+		for (let i = 0; i < q.options.length; i++) {
+			const btnOpt = document.createElement('button');
+			btnOpt.innerText = q.options[i];
+			btnOpt.className = 'option';
+			btnOpt.id = q.options[i];
+			btnOpt.addEventListener('click', () => {
+				clearInterval(timerInterval);
+				checkAns(btnOpt.id, q);
+			});
+			elQuestion.appendChild(btnOpt);
+		}
+		if (hints > 0) {
+			var hintBtn = document.createElement('button');
+			hintBtn.className = 'btn-hint';
+			hintBtn.innerText = 'Get Hint';
+			// hintBtn.onclick=getHint();
+			hintBtn.addEventListener('click', () => {
+				getHint(q);
+			});
+			elQuestion.appendChild(hintBtn);
+		}
+		elScore.innerText = 'score: ' + score;
+		startTimer();
+	} else {
+		quizeEnd();
+	}
 }
 
 async function checkAns(ans, q) {
@@ -740,24 +739,25 @@ async function checkAns(ans, q) {
   renderQuestion(quizeArr.pop());
 }
 function quizeEnd() {
-  console.log(arrAns);
-  elQuestion = document.querySelector(".question");
-  elQuestion.innerHTML = "";
-  strHTML = `Your Result is:<div>`;
-  var elDiv = document.createElement("div");
-  elDiv.className = "result";
-  for (let i = 0; i < arrAns.length; i++) {
-    if (arrAns[i] == 1) {
-      strHTML += '<i class="star fa fa-check" aria-hidden="true"></i>';
-    } else {
-      strHTML += '<i class="star-f fa fa-times" aria-hidden="true"></i>';
-    }
-  }
-  InsertScore();
-  strHTML += `</div>`;
-  strHTML += ` <button onclick="startGame()">Play again</button>`;
-  elDiv.innerHTML = strHTML;
-  elQuestion.appendChild(elDiv);
+	clearInterval(timerInterval);
+	console.log(arrAns);
+	elQuestion = document.querySelector('.question');
+	elQuestion.innerHTML = '';
+	strHTML = `Your Result is:<div>`;
+	var elDiv = document.createElement('div');
+	elDiv.className = 'result';
+	for (let i = 0; i < arrAns.length; i++) {
+		if(arrAns[i]==1){
+			strHTML += '<i class="star fa fa-check" aria-hidden="true"></i>';
+		}else{
+			strHTML += '<i class="star-f fa fa-times" aria-hidden="true"></i>';
+		}
+	}
+	InsertScore();
+	strHTML+=`</div>`
+	strHTML+=` <button onclick="startGame()">Play again</button>`
+	elDiv.innerHTML = strHTML;
+	elQuestion.appendChild(elDiv);
 }
 function shuffle(array) {
   let currentIndex = array.length,
@@ -791,15 +791,20 @@ function startTimer() {
   timerInterval = setInterval(function () {
     timeLeft -= 1;
     updateTimerDisplay();
-
-    // Check if the timer has reached 0
-    if (timeLeft <= 0) {
-      renderQuestion(quizeArr.pop());
-      clearInterval(timerInterval); // Clear the interval when time is up
-      arrAns.push(0);
-      // handleTimeUp();
-    }
-  }, 1000);
+		// Check if the timer has reached 0
+		if (timeLeft <= 0) {
+			renderQuestion(quizeArr.pop());
+			arrAns.push(0);
+			clearInterval(timerInterval); // Clear the interval when time is up
+			
+			// handleTimeUp();
+		}
+		if(timeLeft <= 0&& quizeArr.length <= 0){
+			console.log("enddd");
+			quizeEnd();
+			// clearInterval(timerInterval);
+		}
+	}, 1000);
 }
 
 function updateTimerDisplay() {
