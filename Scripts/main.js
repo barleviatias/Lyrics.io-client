@@ -13,6 +13,7 @@ let api = 'https://localhost:7245/';
 let currUser = JSON.parse(localStorage.getItem('user'));
 function init() {
 	checkDark();
+	isMobileMode();
 	let elFull = document.getElementById('full');
 	elFull.addEventListener('click', () => {
 		closeMenu();
@@ -271,7 +272,7 @@ function renderSong(songId) {
       artistInfoDiv.classList.add("artist-info");
 
       var bioTitle = document.createElement("h2");
-      searchSong(s.song);
+      searchSong(s.song,s.artist);
       bioTitle.textContent = s.song;
       artistInfoDiv.appendChild(bioTitle);
       // Render the artist name
@@ -436,21 +437,23 @@ function Show() {
   });
 }
 
-function searchSong(songName) {
+function searchSong(songName,artist) {
   const apiKey = "AIzaSyDp9sFEyhoz0XNo1iKtnGPiipf7TdRhH7g";
-
+console.log( artist.trim()+"-"+songName);
   fetch(
     `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
-      songName
+		artist.trim()+"-"+songName
     )}&type=video&key=${apiKey}`
   )
     .then((response) => response.json())
     .then((data) => {
+		console.log(data);
       if (data.items.length > 0) {
         const videoId = data.items[0].id.videoId;
+		console.log(videoId);
         const link = `https://www.youtube.com/watch?v=${videoId}`;
         console.log(link);
-        playVideo(link); // You can do whatever you want with the link here
+        playVideo(videoId); // You can do whatever you want with the link here
       } else {
         console.log("No videos found for the given song name.");
       }
@@ -459,9 +462,7 @@ function searchSong(songName) {
       console.error("Error fetching data:", error);
     });
 }
-function playVideo(youtubeUrl) {
-  const videoId = extractVideoId(youtubeUrl);
-
+function playVideo(videoId) {
   if (videoId) {
     const playerDiv = document.querySelector(".videos");
     playerDiv.style.display = "block";
@@ -495,7 +496,6 @@ function Search() {
       nameApi,
       null,
       (data) => {
-        console.log(data);
         renderSongs(data, 1);
       },
       (err) => {
@@ -510,7 +510,6 @@ function Search() {
       artistApi,
       null,
       (data) => {
-        console.log(data);
         renderSongs(data, 1);
       },
       (err) => {
@@ -525,7 +524,6 @@ function Search() {
       lyricsApi,
       null,
       (data) => {
-        console.log(data);
         renderSongs(data, 1);
       },
       (err) => {
@@ -601,10 +599,8 @@ function renderQuestion(q) {
     elScore.innerText = "score:" + score;
     startTimer();
   } else {
-    console.log("game ended");
-    console.log(count);
+
     quizeEnd();
-    console.log("your score is " + score);
   }
 }
 
@@ -629,7 +625,6 @@ function quizeEnd() {
   elQuestion = document.querySelector(".question");
   elQuestion.innerHTML = "";
   strHTML = `Your Result is:`;
-  console.log(count);
   var elDiv = document.createElement("div");
   elDiv.className = "result";
   for (let i = 0; i < count; i++) {
@@ -679,7 +674,6 @@ function startTimer() {
     if (timeLeft <= 0) {
       clearInterval(timerInterval); // Clear the interval when time is up
 
-      console.log("Time's up!");
       renderQuestion(quizeArr.pop());
       // handleTimeUp();
     }
@@ -705,7 +699,6 @@ function getHint(q) {
     }
   }
   hintQ = shuffle(hintQ);
-  console.log(hintQ);
   var timerDiv = document.createElement("div");
   timerDiv.className = "timer-div";
   var timerlbl = document.createElement("p");
@@ -716,7 +709,6 @@ function getHint(q) {
   question.innerText = q.q;
   elQuestion.appendChild(question);
   for (let j = 0; j < hintQ.length; j++) {
-    console.log("render: " + j);
     const btnOp = document.createElement("button");
     btnOp.innerText = hintQ[j];
     btnOp.className = "option";
@@ -737,7 +729,6 @@ function InsertScore() {
     InsertScoreAPI,
     null,
     (data) => {
-      console.log("Insert Score");
     },
     (err) => {
       alert(err);
@@ -754,7 +745,6 @@ function GetScore() {
     (data) => {
       for(let d in data){
         if(data[d][0]==curUser.id){
-          console.log(data[d][1]);
           return;
         }
       }
@@ -765,7 +755,6 @@ function GetScore() {
   );
 }
 function openMenu() {
-	console.log('click open');
 	elMenu = document.querySelector('.sidebar');
 	elMenu.style.display = 'block';
 	elFull = document.getElementById('full');
@@ -778,7 +767,6 @@ function openMenu() {
 	// });
 }
 function closeMenu() {
-	console.log('click close');
 	elMenu = document.querySelector('.sidebar');
 	elMenu.style.display = 'none';
 	elFull = document.getElementById('full');
@@ -789,12 +777,11 @@ function checkDark(){
 	let isDark=localStorage.getItem('isDark');
 	var img = document.querySelector(".logoImg");
 	const theme = document.querySelector("#theme-link");
-	let chk= document.querySelector('.checkbox-label');
-	console.log(isDark);
+	let chk= document.querySelector('.checkbox');
 	if(isDark=='false'){
-		console.log("starting white");
 		img.src = "../img/1.png";
 	  	theme.href = "../Styles/main-light.css";
+		chk.checked=true;
 	}
 	else{
 		chk.checked=false;
@@ -807,7 +794,6 @@ function toggleDarkMode() {
 	const theme = document.querySelector("#theme-link");
         // Swap out the URL for the different stylesheets
         if (theme.getAttribute("href") == "../Styles/main-light.css") {
-			console.log("ligth");
 			localStorage.setItem("isDark",true);
 			img.src = "../img/2.png";
 			theme.href = "../Styles/main.css";
@@ -818,3 +804,26 @@ function toggleDarkMode() {
           theme.href = "../Styles/main-light.css";
         }
   }
+
+  // Function to check if the device is in mobile mode
+function isMobileMode() {
+	// Define the media query for mobile devices
+	const mobileQuery = window.matchMedia("(max-width: 767px)");
+  
+	// Check if the media query matches (i.e., the device is in mobile mode)
+	if (mobileQuery.matches) {
+	  return true;
+	} else {
+	  return false;
+	}
+  }
+  
+  // Usage example
+  if (isMobileMode()) {
+	console.log("You are in mobile mode.");
+  } else {
+	// elMenu = document.querySelector('.sidebar');
+	// elMenu.style.display = 'block';
+	console.log("You are not in mobile mode.");
+  }
+  

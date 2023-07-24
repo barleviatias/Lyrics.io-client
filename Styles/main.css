@@ -490,5 +490,13 @@ display: flex;
   .main-container {
     margin-left: 0;
     margin-bottom: 100px;
+  }
+
 }
+@media screen and (min-width: 768px) {
+  /* Add your CSS styles here for regular screens */
+  .sidebar {
+    display: block;
+    z-index: 999;
+  } 
 }
