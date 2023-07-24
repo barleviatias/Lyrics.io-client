@@ -28,9 +28,10 @@ async function init() {
   document.querySelector(".manage-users").style.display = "none";
   document.querySelector(".manage-liked-songs").style.display = "none";
 
-  getUsers();
-  artistStat();
   drawChart();
+  artistStat();
+  getUsers();
+  showManageUsers();
 }
 function getSongs() {
   return new Promise((resolve, reject) => {
