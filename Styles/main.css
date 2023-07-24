@@ -477,7 +477,10 @@ display: flex;
   display: none;
   color:whitesmoke;
 }
-
+.question .btn-hint{
+  width: 100px;
+  background-color: #00BD68;
+}
 @media screen and (max-width: 768px) {
   .sidebar {
     display: none;
