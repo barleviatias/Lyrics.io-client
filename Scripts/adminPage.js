@@ -132,14 +132,13 @@ function renderUsers(data) {
 function deleteUser(el) {
   let index = 0;
   let deleteAPI = api + "api/Users/DeleteUser/email/" + el[0]["email"];
-  $('#example').DataTable().rows( el.id ).data();
-  for(let j in $('#example').DataTable().rows( ).data()){
-    if($('#example').DataTable().rows( ).data()[j]['email'] == el[0]["email"]){
+  $("#example").DataTable().rows(el.id).data();
+  for (let j in $("#example").DataTable().rows().data()) {
+    if ($("#example").DataTable().rows().data()[j]["email"] == el[0]["email"]) {
       index = j;
-      
     }
   }
- 
+
   ajaxCall(
     "DELETE",
     deleteAPI,
@@ -152,12 +151,9 @@ function deleteUser(el) {
         }
       }
 
-      var table = $('#example').DataTable();
- 
-      var rows = table
-          .rows( index )
-          .remove()
-          .draw();
+      var table = $("#example").DataTable();
+
+      var rows = table.rows(index).remove().draw();
     },
     (err) => {
       alert(err);
@@ -185,6 +181,7 @@ google.charts.setOnLoadCallback(drawChart);
 // draws it.
 async function drawChart() {
   // Create the data table.
+
   console.log(counterFavorite);
   var data = new google.visualization.DataTable();
   data.addColumn("string", "Topping");
@@ -207,7 +204,7 @@ async function drawChart() {
   const tmp = document.getElementById("chart_div");
   const child = tmp.firstChild;
   child.style.display = "flex";
-  child.style.justifyContent = "center";
+  child.style.justifyContent = "center";
 }
 function ShowLiked() {
   document.querySelector(".manage-users").style.display = "none";
