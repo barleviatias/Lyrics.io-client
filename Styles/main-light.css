@@ -438,7 +438,10 @@
   
     margin-bottom: 20px;
   }
-  
+  .result{
+    text-align: center;
+    font-size: 40px;
+  }
   .wrong{
     background-color: red;
   }
@@ -451,13 +454,16 @@
   .score{
     color: #121212;
     padding: 10px;
+    font-size: 32px;
     text-align: center;
   }
   .star{
+    margin-left: 10px;
     color: #00BD68;
     font-size: 40px;
   }
   .star-f{
+    margin-left: 10px;
     /* color: #00BD68; */
     font-size: 40px;
   }
@@ -491,6 +497,13 @@
   }
   .option-div label{
     margin-right: 10px;
+  }
+  .quize-div{
+    display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: column;
+    height: 500px;
   }
   
   @media screen and (max-width: 768px) {

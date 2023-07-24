@@ -436,7 +436,11 @@ body {
 
   margin-bottom: 20px;
 }
-
+.result{
+  text-align: center;
+  color: whitesmoke;
+  font-size: 40px;
+}
 .wrong{
   background-color: red;
 }
@@ -447,16 +451,27 @@ body {
   color: whitesmoke;
 }
 .score{
+  padding: 10px;
+  font-size: 32px;
   color: whitesmoke;
   text-align: center;
 }
 .star{
   color: #00BD68;
   font-size: 40px;
+  margin-left: 10px;
 }
 .star-f{
+  margin-left: 10px;
   /* color: #00BD68; */
   font-size: 40px;
+}
+.quize-div{
+  display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+  height: 500px;
 }
 .timer-div{
 display: flex;
@@ -483,6 +498,10 @@ display: flex;
 }
 .option-div{
   display: flex ;
+  color: whitesmoke;
+}
+.option-div label{
+  margin-right: 10px;
 }
 @media screen and (max-width: 768px) {
   .sidebar {
