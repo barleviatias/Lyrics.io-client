@@ -449,7 +449,8 @@
     color: whitesmoke;
   }
   .score{
-    color: whitesmoke;
+    color: #121212;
+    padding: 10px;
     text-align: center;
   }
   .star{
@@ -484,6 +485,12 @@
   .question .btn-hint{
     width: 100px;
     background-color: #00BD68;
+  }
+  .option-div{
+    display: flex ;
+  }
+  .option-div label{
+    margin-right: 10px;
   }
   
   @media screen and (max-width: 768px) {

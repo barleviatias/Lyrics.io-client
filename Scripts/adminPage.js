@@ -72,36 +72,6 @@ function getFavoriteByID() {
     }
   );
 }
-function getFavorite() {
-  let con = [];
-  let favAPI = api + "api/Songs/GetAllFav";
-  ajaxCall(
-    "GET",
-    favAPI,
-    null,
-
-    (data) => {
-      let songs1 = JSON.parse(localStorage.getItem("songs"));
-      favorites = data;
-      for (d in data) {
-        if (con.hasOwnProperty(data[d][1]) == false) {
-          con[data[d][1]] = 0;
-        }
-        con[data[d][1]] += 1;
-      }
-      for (p in con) {
-        for (s in songs1) {
-          if (songs1[s].id == p) {
-            counterFavorite.push([songs1[s].song, con[p]]);
-          }
-        }
-      }
-    },
-    (err) => {
-      alert(err);
-    }
-  );
-}
 
 function renderUsers(data) {
   console.log("try render");
@@ -164,7 +134,6 @@ function showManageUsers() {
   let elDiv = document.querySelector(".manage-users");
   elDiv.style.display = "block";
 }
-getFavorite();
 
 // Load the Visualization API and the corechart package.
 google.charts.load("current", { packages: ["corechart"] });
@@ -172,12 +141,45 @@ google.charts.load("current", { packages: ["corechart"] });
 // Set a callback to run when the Google Visualization API is loaded.
 google.charts.setOnLoadCallback(drawChart);
 
-// Callback that creates and populates a data table,
-// instantiates the pie chart, passes in the data and
-// draws it.
-async function drawChart() {
-  // Create the data table.
+function getFavorite() {
+  return new Promise((resolve, reject) => {
+    let con = [];
+    let favAPI = api + "api/Songs/GetAllFav";
+    ajaxCall(
+      "GET",
+      favAPI,
+      null,
+      (data) => {
+        let songs1 = JSON.parse(localStorage.getItem("songs"));
+        favorites = data;
+        for (d in data) {
+          if (con.hasOwnProperty(data[d][1]) == false) {
+            con[data[d][1]] = 0;
+          }
+          con[data[d][1]] += 1;
+        }
+        for (p in con) {
+          for (s in songs1) {
+            if (songs1[s].id == p) {
+              counterFavorite.push([songs1[s].song, con[p]]);
+            }
+          }
+        }
+        console.log("success");
+        resolve(); // Resolve the Promise after the data is processed
+      },
+      (err) => {
+        reject(err); // Reject the Promise if there is an error
+      }
+    );
+  });
+}
 
+
+
+async function drawChart() {
+  await getFavorite();
+  console.log(counterFavorite);
   var data = new google.visualization.DataTable();
   data.addColumn("string", "Topping");
   data.addColumn("number", "Slices");

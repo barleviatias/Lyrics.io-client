@@ -1,11 +1,12 @@
 let likedSongsId = [];
-const numOfQuestions = 5;
+const numOfQuestions = 6;
+let arrAns=[]
 let score = 0;
 let reward = 1;
 let timeLeft = 30; // Set the initial time in seconds
 let timerInterval; // Variable to store the interval reference
 let rnd;
-let hints = 2;
+let hints=3;
 let count = 0;
 let quizeArr = [];
 let flag = 0;
@@ -557,6 +558,7 @@ function quizeSongs() {
 		question.options = shuffle(opt);
 		quizeArr.push(question);
 	}
+	console.log(quizeArr);
 	renderQuestion(quizeArr.pop());
 }
 function startGame() {
@@ -568,7 +570,8 @@ function startGame() {
 	container.innerHTML = '';
 	score = 0;
 	count = 0;
-	hints = 2;
+	arrAns=[];
+	hints = 3;
 
 	let lblHello = document.createElement('h2');
 	lblHello.innerText = 'Hello ' + currUser.firstName + ' lets challenge';
@@ -585,16 +588,18 @@ function startGame() {
 	container.appendChild(lblHello);
 	container.appendChild(btnArtitst);
 	container.appendChild(btnSongs);
-
+	let optionDiv = document.createElement('div');
+	optionDiv.className='option-div';
 	difficultyOptions = ['Easy', 'Medium', 'Hard'];
 	difficultyOptions.forEach((option, index) => {
 		const label = document.createElement('label');
 		label.innerHTML = `<input type="radio" name="difficulty" value="${option}" ${
 			index === 0 ? 'checked' : ''
 		} onchange="handleDifficultyChange()" /> ${option}`;
-		container.appendChild(label);
-		container.appendChild(document.createElement('br'));
+		optionDiv.appendChild(label);
+		optionDiv.appendChild(document.createElement('br'));
 	});
+	container.appendChild(optionDiv)
 }
 function handleDifficultyChange() {
 	const selectedOption = document.querySelector(
@@ -606,16 +611,19 @@ function handleDifficultyChange() {
 			// Code for Easy difficulty
 			reward = 1;
 			timeLeft = 30;
+			hints=3;
 			console.log('Easy difficulty selected!');
 			break;
 		case 'Medium':
 			reward = 2;
+			hints=1
 			timeLeft = 15;
 			// Code for Medium difficulty
 			console.log('Medium difficulty selected!');
 			break;
 		case 'Hard':
 			reward = 4;
+			hints=0;
 			timeLeft = 10;
 			// Code for Hard difficulty
 			console.log('Hard difficulty selected!');
@@ -626,7 +634,7 @@ function handleDifficultyChange() {
 	}
 }
 function renderQuestion(q) {
-	if (quizeArr.length != 0) {
+	if (quizeArr.length > 0) {
 		elScore = document.querySelector('.score');
 		elQuestion = document.querySelector('.question');
 		elQuestion.innerHTML = '';
@@ -672,9 +680,10 @@ async function checkAns(ans, q) {
 	elBtn = document.getElementById(ans);
 	if (ans == q.a) {
 		score += 10 *reward* timeLeft;
-		count++;
+		arrAns.push(1);
 		elBtn.className = 'correct';
 	} else {
+		arrAns.push(0);
 		elBtn.className = 'wrong';
 	}
 	elOpt = document.querySelectorAll('.option');
@@ -685,18 +694,21 @@ async function checkAns(ans, q) {
 	renderQuestion(quizeArr.pop());
 }
 function quizeEnd() {
+	console.log(arrAns);
 	elQuestion = document.querySelector('.question');
 	elQuestion.innerHTML = '';
-	strHTML = `Your Result is:`;
+	strHTML = `Your Result is:<div>`;
 	var elDiv = document.createElement('div');
 	elDiv.className = 'result';
-	for (let i = 0; i < count; i++) {
-		strHTML += '<i class="star fa fa-star" aria-hidden="true"></i>';
-	}
-	for (let i = 0; i < numOfQuestions - count; i++) {
-		strHTML += '<i class="star-f fa fa-star" aria-hidden="true"></i>';
+	for (let i = 0; i < arrAns.length; i++) {
+		if(arrAns[i]==1){
+			strHTML += '<i class="star fa fa-check" aria-hidden="true"></i>';
+		}else{
+			strHTML += '<i class="star-f fa fa-times" aria-hidden="true"></i>';
+		}
 	}
 	InsertScore();
+	strHTML+=`</div>`
 	elDiv.innerHTML = strHTML;
 	elQuestion.appendChild(elDiv);
 }
