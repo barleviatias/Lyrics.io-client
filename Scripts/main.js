@@ -22,7 +22,7 @@ function init() {
 
 	elHellolbl = document.querySelector('.hello');
 	if (currUser == null) {
-		window.location.href = '/pages/welcome.html';
+		window.location.href = 'welcome.html';
 	} else {
 		elHellolbl.innerText = 'Hello,' + currUser.firstName;
 	}
@@ -35,6 +35,7 @@ async function getSongs() {
 	showLoader();
 	await getFavSongs();
 	let api1 = api + 'api/Songs';
+	console.log(api);
 	ajaxCall(
 		'GET',
 		api1,
@@ -331,7 +332,7 @@ function getFavSongs() {
 }
 
 function logout() {
-	window.location.href = '/pages/welcome.html';
+	window.location.href = 'welcome.html';
 	localStorage.removeItem('user');
 }
 function OpenSearch() {

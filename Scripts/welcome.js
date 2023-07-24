@@ -39,7 +39,7 @@ function SignUp(event) {
     (data) => {
       console.log("success");
       localStorage.setItem("user", JSON.stringify(Users));
-      window.location.href = "/pages/main.html";
+      window.location.href = "main.html";
     },
     (err) => {
       alert("Email Already Used!");
@@ -64,14 +64,14 @@ function SignIn(event) {
         document.SignInForm.email.value = "";
         document.SignInForm.password.value = "";
         localStorage.setItem("user", JSON.stringify(data));
-        window.location.href = "/pages/admin.html";
+        window.location.href = "admin.html";
         return;
       }
       document.SignInForm.email.value = "";
       document.SignInForm.password.value = "";
       console.log(data);
       localStorage.setItem("user", JSON.stringify(data));
-      window.location.href = "/pages/main.html";
+      window.location.href = "main.html";
     },
     (err) => {
       document.querySelector(".errorH3").style.display="block";

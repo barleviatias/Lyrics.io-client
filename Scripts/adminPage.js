@@ -12,9 +12,17 @@ function showChartDiv() {
   document.getElementById("chart_div1").style.display = "block";
 }
 
-function init() {
+async function init() {
+  if(localStorage.getItem("songs")==null){
+    try {
+      await getSongs();
+      // The getSongs function will now be awaited until the data is fetched and stored in localStorage.
+    } catch (error) {
+      console.error('Error fetching songs:', error);
+    }
+  }
   if (currUser.email.split(" ")[0] != "admin@gmail.com") {
-    window.location.href = "/pages/welcome.html";
+    window.location.href = "welcome.html";
   }
   console.log("admin now");
   document.querySelector(".manage-users").style.display = "none";
@@ -23,6 +31,26 @@ function init() {
   getUsers();
   artistStat();
   drawChart();
+}
+function getSongs() {
+  return new Promise((resolve, reject) => {
+    // closeMenu();
+    let api1 = api + 'api/Songs';
+    console.log(api);
+    ajaxCall(
+      'GET',
+      api1,
+      null,
+      (data) => {
+        localStorage.setItem('songs', JSON.stringify(data));
+        resolve(data);
+      },
+      (err) => {
+        console.log(err);
+        reject(err);
+      }
+    );
+  });
 }
 
 function getUsers() {
@@ -79,47 +107,50 @@ function renderUsers(data) {
   $("#example").DataTable({
     paging: false,
     data: data,
-
     columns: [
       { data: "firstName" },
       { data: "lastName" },
       { data: "email" },
       { data: "signDate" },
       {
-        data: "ID",
+        data: "id",
         render: function (data, type, row) {
           let d = $("#example").DataTable().rows().data();
-          return `<button id ='${i++}' class='delete' onclick="deleteUser($('#example').DataTable().rows( this.id ).data())" >delete</button>`;
+          return (
+            '<button class="btn btn-danger remove-btn" data-id="' +
+            data +
+            '" data-email="' +
+            row.email +
+            '">Remove</button>'
+          );
+          // return `<button id ='${i++}' class='delete' onclick="deleteUser($('#example').DataTable().rows( this.id ).data())" >delete</button>`;
         },
       },
     ],
   });
+  // Attach click event to the remove button
+  $("#example tbody").on("click", ".remove-btn", function () {
+    const row = $(this).closest('tr');
+    $("#example").DataTable().row(row).remove().draw();
+    const userId = $(this).data();
+    // Call the function with the user ID as an argument
+    removeUser(userId.email);
+  });
 }
 
-function deleteUser(el) {
-  let index = 0;
-  let deleteAPI = api + "api/Users/DeleteUser/email/" + el[0]["email"];
-  $("#example").DataTable().rows(el.id).data();
-  for (let j in $("#example").DataTable().rows().data()) {
-    if ($("#example").DataTable().rows().data()[j]["email"] == el[0]["email"]) {
-      index = j;
-    }
-  }
-
+// Function to remove the user (replace this with your actual implementation)
+function removeUser(email) {
+  let deleteAPI = api + "api/Users/DeleteUser/email/" + email;
   ajaxCall(
     "DELETE",
     deleteAPI,
     null,
     (data) => {
       for (let u in users) {
-        if (users[u]["email"] == el[0]["email"]) {
+        if (users[u]["email"] == email) {
           delete users[u];
         }
       }
-
-      var table = $("#example").DataTable();
-
-      var rows = table.rows(index).remove().draw();
     },
     (err) => {
       alert(err);
@@ -178,6 +209,7 @@ function getFavorite() {
 
 
 async function drawChart() {
+
   await getFavorite();
   console.log(counterFavorite);
   var data = new google.visualization.DataTable();
@@ -244,7 +276,7 @@ function RenderLikedSongs(data) {
 }
 
 function logout() {
-  window.location.href = "/pages/welcome.html";
+  window.location.href = "welcome.html";
   localStorage.removeItem("user");
 }
 
