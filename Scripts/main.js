@@ -984,6 +984,7 @@ if (isMobileMode()) {
 function renderAdditions(){
 	let container=document.querySelector('.spotify-playlists');
 	document.querySelector('.search-div').innerHTML = '';
+	document.querySelector('.quize-div').style.display = 'none';
 	container.style.display = 'block';
 	container.innerHTML='';
 	strHTML=`   <h2 class="section-title">Introducing the latest enhancements to our project</h2>
