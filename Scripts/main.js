@@ -902,15 +902,6 @@ async function GetScore() {
 	});
 }
 
-// Usage example:
-GetScore()
-	.then((top3) => {
-		console.log(top3);
-	})
-	.catch((err) => {
-		alert(err);
-	});
-
 function openMenu() {
 	elMenu = document.querySelector('.sidebar');
 	elMenu.style.display = 'block';
@@ -971,16 +962,6 @@ function isMobileMode() {
 		return false;
 	}
 }
-
-// Usage example
-if (isMobileMode()) {
-	console.log('You are in mobile mode.');
-} else {
-	// elMenu = document.querySelector('.sidebar');
-	// elMenu.style.display = 'block';
-	console.log('You are not in mobile mode.');
-}
-
 
 function renderAdditions(){
 	let container=document.querySelector('.spotify-playlists');
