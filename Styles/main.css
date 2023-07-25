@@ -342,7 +342,8 @@ body {
 }
 .artist-info p{
   text-align: center;
-  width: 40%;
+  width: 50%;
+  line-height: 24px;
 }
 .artist-info h2{
   text-align: center;
