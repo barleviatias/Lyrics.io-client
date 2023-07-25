@@ -106,7 +106,7 @@ function renderSongs(data, showSearch = 0) {
 		const addToFavoritesButton = document.createElement('button');
 		addToFavoritesButton.className = d.id;
 		addToFavoritesButton.classList.add = 'btn-fav';
-		addToFavoritesButton.innerHTML = '<i class="fa-regular fa-heart"></i>';
+		addToFavoritesButton.innerHTML = '<i class="empty fa-regular fa-heart"></i>';
 		if (likedSongsId.includes(d.id)) {
 			addToFavoritesButton.innerHTML = '<i class="fa-solid fa-heart"></i>';
 			addToFavoritesButton.style.color = 'green';
