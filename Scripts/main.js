@@ -44,9 +44,9 @@ async function getSongs() {
 			api1,
 			null,
 			(data) => {
-				hideLoader();
 				localStorage.setItem('songs', JSON.stringify(data));
 				renderSongs(data);
+				hideLoader();
 			},
 			(err) => {
 				console.log(err);
@@ -58,7 +58,6 @@ async function getSongs() {
 		renderSongs(JSON.parse(localStorage.getItem('songs')));
 	}
 }
-
 async function getLikedSongs() {
 	await getFavSongs();
 	let lstLikedSongs = [];

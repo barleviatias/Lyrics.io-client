@@ -43,8 +43,8 @@ function SignUp(event) {
     JSON.stringify(Users),
     (data) => {
       console.log("success");
-      localStorage.setItem("user", JSON.stringify(Users));
-      window.location.href = "main.html";
+      // localStorage.setItem("user", JSON.stringify(Users));
+      window.location.href = "welcome.html";
     },
     (err) => {
       alert("Email Already Used!");
