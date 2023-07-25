@@ -558,6 +558,9 @@
       display: none;
       z-index: 999;
     }
+    #search-container {
+      width: 100%;
+  }
     .menu{
       display: block;
       color:whitesmoke;
