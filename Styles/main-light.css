@@ -249,7 +249,24 @@
     margin: 70px 0px 0px;
     border-color: #636363;
   }
-  
+  .btn-youtube{
+    display: flex;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    background-color: #c4302b;
+    border-radius: 50%;
+    font-size: 18px;
+    color: white;
+    line-height: 40px;
+    margin: auto;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    background-image: none;
+  }
   .preview {
     position: fixed;
     bottom: 0;

@@ -401,6 +401,24 @@ body {
   background-color: aliceblue;
   text-align: center;
 }
+.btn-youtube{
+  display: flex;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  background-color: #c4302b;
+  border-radius: 50%;
+  font-size: 18px;
+  color: white;
+  line-height: 40px;
+  margin: auto;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  background-image: none;
+}
 .artist-img{
   width: 150px; /* Adjust the size of the circular container as needed */
   height: 150px; /* Ensure width and height are equal to create a perfect circle */

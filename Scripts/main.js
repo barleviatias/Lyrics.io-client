@@ -26,33 +26,40 @@ function init() {
 	} else {
 		elHellolbl.innerText = 'Hello,' + currUser.firstName;
 	}
+
 	getSongs();
+
 	getUsers();
 	GetScore();
 }
 async function getSongs() {
-	// closeMenu();
 	showLoader();
 	await getFavSongs();
 	let api1 = api + 'api/Songs';
-	console.log(api);
-	ajaxCall(
-		'GET',
-		api1,
-		null,
-		(data) => {
-			hideLoader();
-			localStorage.setItem('songs', JSON.stringify(data));
-			renderSongs(data);
-		},
-		(err) => {
-			console.log(err);
-		}
-	);
+	//check if songs alredy loaded
+	if (localStorage.getItem('songs') == null) {
+		console.log("empty songs");
+		ajaxCall(
+			'GET',
+			api1,
+			null,
+			(data) => {
+				hideLoader();
+				localStorage.setItem('songs', JSON.stringify(data));
+				renderSongs(data);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	} else {
+		console.log(" songs from local");
+		hideLoader();
+		renderSongs(JSON.parse(localStorage.getItem('songs')));
+	}
 }
 
 async function getLikedSongs() {
-	// closeMenu();
 	await getFavSongs();
 	let lstLikedSongs = [];
 	songs = JSON.parse(localStorage.getItem('songs'));
@@ -72,25 +79,21 @@ function renderSongs(data, showSearch = 0) {
 	getFavSongs();
 	hideLoader();
 	strHTML = ``;
-	const container = document.querySelector('.spotify-playlists'); // Replace 'container' with the ID of your container element
-	// Clear the container
+	const container = document.querySelector('.spotify-playlists'); 
 	document.querySelector('.videos').style.display = 'none';
 	document.querySelector('.quize-div').style.display = 'none';
 	container.innerHTML = '';
 	for (d of data) {
 		const item = document.createElement('div');
 		item.classList.add('item');
-		// Create and append the artist element
 		const artist = document.createElement('p');
 		artist.innerText = d.artist.trim();
-		// Add onclick function to artist element
 		artist.id = d.artist.trim();
 		artist.addEventListener('click', () => {
 			renderArtist(artist.id);
 		});
 		item.appendChild(artist);
 
-		// Create and append the song element
 		const song = document.createElement('p');
 		song.id = d.id;
 		song.innerText = d.song.trim();
@@ -108,6 +111,7 @@ function renderSongs(data, showSearch = 0) {
 			addToFavoritesButton.innerHTML = '<i class="fa-solid fa-heart"></i>';
 			addToFavoritesButton.style.color = 'green';
 		}
+		//add button like and onclick function
 		addToFavoritesButton.addEventListener('click', () => {
 			let userId = currUser.id;
 			let songId = addToFavoritesButton.className;
@@ -149,7 +153,6 @@ function renderSongs(data, showSearch = 0) {
 		});
 		item.appendChild(addToFavoritesButton);
 
-		// Append the item to the container
 		container.appendChild(item);
 	}
 }
@@ -192,8 +195,6 @@ function renderArtist(name) {
 					.then((res) => res.json())
 					.then((out) => {
 						const relations = out.relations;
-						//  console.table(relations);
-						// Find image relation
 						for (let i = 0; i < relations.length; i++) {
 							if (relations[i].type === 'image') {
 								image_url = relations[i].url.resource;
@@ -457,7 +458,7 @@ function searchSong(songName, artist) {
 				const videoId = data.items[0].id.videoId;
 				const link = `https://www.youtube.com/watch?v=${videoId}`;
 				console.log(link);
-				playVideo(videoId); // You can do whatever you want with the link here
+				playVideo(videoId,link); // You can do whatever you want with the link here
 			} else {
 				console.log('No videos found for the given song name.');
 			}
@@ -466,11 +467,15 @@ function searchSong(songName, artist) {
 			console.error('Error fetching data:', error);
 		});
 }
-function playVideo(videoId) {
+function playVideo(videoId,link) {
+
 	if (videoId) {
 		const playerDiv = document.querySelector('.videos');
+		let StrHTML=``;
+		strHTML+=` <a href="${link}" target="_blank"><button class="btn-youtube"><i class="fa-brands fa-youtube"></i></button></a>`;
+		strHTML+=`<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
 		playerDiv.style.display = 'block';
-		playerDiv.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+		playerDiv.innerHTML = strHTML
 	} else {
 		console.error('Invalid YouTube URL.');
 	}
@@ -593,7 +598,9 @@ async function renderTop3() {
 		for (let t in top3) {
 			for (let u in users) {
 				if (users[u].id == top3[t][0]) {
-					elscore += `<div class="top3div"><h2>${users[u].firstName} ${users[u].lastName}</h2>`+ `<h2>${top3[t][1]}</h2></div>`;
+					elscore +=
+						`<div class="top3div"><h2>${users[u].firstName} ${users[u].lastName}</h2>` +
+						`<h2>${top3[t][1]}</h2></div>`;
 				}
 			}
 		}
@@ -609,7 +616,6 @@ function startGame() {
 	clearInterval(timerInterval);
 	let elcontainer = document.querySelector('.spotify-playlists');
 	document.querySelector('.quize-div').style.display = 'flex';
-	
 
 	elcontainer.innerHTML = '';
 	let container = document.querySelector('.question');
@@ -618,7 +624,7 @@ function startGame() {
 	count = 0;
 	arrAns = [];
 	hints = 3;
-	time=30;
+	time = 30;
 
 	let lblHello = document.createElement('h2');
 	lblHello.innerText = 'Hello ' + currUser.firstName + ' lets challenge';
@@ -869,41 +875,40 @@ function InsertScore() {
 }
 async function GetScore() {
 	let top3 = [];
-    return new Promise((resolve, reject) => {
-        let curUser = JSON.parse(localStorage.getItem('user'));
-        let GetScoreAPI = api + 'api/Users/GetAllScores';
+	return new Promise((resolve, reject) => {
+		let curUser = JSON.parse(localStorage.getItem('user'));
+		let GetScoreAPI = api + 'api/Users/GetAllScores';
 
-        ajaxCall(
-            'GET',
-            GetScoreAPI,
-            null,
-            (data) => {
-                let relevante = data.sort(function(a, b) {
-                    return b[1] - a[1];
-                });
+		ajaxCall(
+			'GET',
+			GetScoreAPI,
+			null,
+			(data) => {
+				let relevante = data.sort(function (a, b) {
+					return b[1] - a[1];
+				});
 
-                for (let i = 0; i < 3; i++) {
-                    top3.push(relevante[i]);
-                }
+				for (let i = 0; i < 3; i++) {
+					top3.push(relevante[i]);
+				}
 
-                resolve(top3);
-            },
-            (err) => {
-                reject(err);
-            }
-        );
-    });
+				resolve(top3);
+			},
+			(err) => {
+				reject(err);
+			}
+		);
+	});
 }
 
 // Usage example:
 GetScore()
-    .then((top3) => {
-        console.log(top3);
-    })
-    .catch((err) => {
-        alert(err);
-    });
-
+	.then((top3) => {
+		console.log(top3);
+	})
+	.catch((err) => {
+		alert(err);
+	});
 
 function openMenu() {
 	elMenu = document.querySelector('.sidebar');

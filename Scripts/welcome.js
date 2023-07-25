@@ -6,6 +6,11 @@ console.log("loading");
 if(localStorage.getItem("isDark")==null){
   localStorage.setItem("isDark",true);
 }
+
+let currUser = JSON.parse(localStorage.getItem('user'));
+if (currUser != null) {
+  window.location.href = 'main.html';
+}
 checkDark();
 // bug when signup user obj dont save the id 
 
