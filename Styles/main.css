@@ -183,7 +183,9 @@ body {
   gap: 20px;
   overflow: hidden;
 }
-
+.artist-h{
+  color: #b1b1b1;
+}
 .spotify-playlists .list .item {
   min-width: 140px;
   width: 160px;

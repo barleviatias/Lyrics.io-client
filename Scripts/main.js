@@ -89,6 +89,7 @@ function renderSongs(data, showSearch = 0) {
 		const artist = document.createElement('p');
 		artist.innerText = d.artist.trim();
 		artist.id = d.artist.trim();
+		artist.className='artist-h';
 		artist.addEventListener('click', () => {
 			renderArtist(artist.id);
 		});

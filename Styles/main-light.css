@@ -547,6 +547,9 @@
     margin-bottom: 20px;
     text-align: center;
   }
+  .artist-h{
+    color: #b1b1b1;
+  }
   .top3div{
     display: flex;
       width: 350px;
