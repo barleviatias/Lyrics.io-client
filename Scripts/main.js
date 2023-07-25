@@ -979,3 +979,36 @@ if (isMobileMode()) {
 	// elMenu.style.display = 'block';
 	console.log('You are not in mobile mode.');
 }
+
+
+function renderAdditions(){
+	let container=document.querySelector('.spotify-playlists');
+	document.querySelector('.search-div').innerHTML = '';
+	container.style.display = 'block';
+	container.innerHTML='';
+	strHTML=`   <h2 class="section-title">Introducing the latest enhancements to our project</h2>
+    <ul>
+        <li class="list-item">
+            <span>Dark Mode with State Persistence:</span> Enjoy a soothing, eye-friendly browsing experience with Dark Mode, and your preference will be remembered each time you return.
+        </li>
+        <li class="list-item">
+            <span>Enhanced Game Quiz Features:</span> Take your gaming experience to new heights with adjustable difficulty levels, helpful hints, and an exciting built-in timer.
+        </li>
+        <li class="list-item">
+            <span>YouTube API Integration:</span> Effortlessly make API calls to YouTube servers, obtaining valuable data such as video IDs, links, and other information, directly within the project.
+        </li>
+        <li class="list-item">
+            <span>Artist Data API:</span> Using the Last.fm API, retrieve comprehensive information about the artist by making API calls with the artist's ID. Send the necessary API requests to obtain the artist's image, along with other details, seamlessly integrating this data into the project.
+        </li>
+        <li class="list-item">
+            <span>Admin Panel - Delete User:</span> Empower administrators with the ability to securely manage user accounts, including the option to delete specific accounts for maintenance or policy adherence.
+        </li>
+        <li class="list-item">
+		<span>Visual Statistics:</span> Gain valuable insights from easy-to-understand graphs, charts, and infographics, making complex data accessible and engaging.
+        </li>
+        <li class="list-item">
+            <span>Enhanced UX/UI Experience:</span> Navigate effortlessly with an intuitive, visually appealing, and user-friendly interface, designed based on valuable user feedback.
+        </li>
+    </ul>`;
+	container.innerHTML=strHTML;
+}

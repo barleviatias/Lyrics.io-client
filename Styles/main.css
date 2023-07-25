@@ -536,6 +536,22 @@ display: flex;
     width: 350px;
     justify-content: space-between;
 }
+
+.spotify-playlists .section-title {
+  margin-bottom: 20px;
+  color: #00BD68;
+}
+
+.list-item {
+  margin-bottom: 20px;
+  color: whitesmoke;
+}
+.list-item span {
+  /* margin-bottom: 10px; */
+  color: #00BD68;
+}
+
+
 @media screen and (max-width: 768px) {
   .sidebar {
     display: none;
