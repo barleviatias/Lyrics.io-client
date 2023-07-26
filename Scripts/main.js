@@ -45,8 +45,8 @@ async function getSongs() {
 			null,
 			(data) => {
 				localStorage.setItem('songs', JSON.stringify(data));
-				renderSongs(data);
 				hideLoader();
+				renderSongs(data);
 			},
 			(err) => {
 				console.log(err);
