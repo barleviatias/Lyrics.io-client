@@ -1,4 +1,4 @@
-let api = "https://proj.ruppin.ac.il/cgroup18/test2/tar1/";
+let api = "https://proj.ruppin.ac.il/cgroup50/test2/tar1/";
 let users = [];
 let favorites = [];
 let counterFavorite = [];
