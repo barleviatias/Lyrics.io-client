@@ -10,7 +10,7 @@ let rnd;
 let hints = 3;
 let count = 0;
 let quizeArr = [];
-let api = 'https://proj.ruppin.ac.il/cgroup18/test2/tar1/';
+let api = 'https://proj.ruppin.ac.il/cgroup50/test2/tar1/';
 let currUser = JSON.parse(localStorage.getItem('user'));
 function init() {
 	checkDark();
